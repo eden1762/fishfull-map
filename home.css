@@ -235,3 +235,67 @@
     bottom: calc(88px + env(safe-area-inset-bottom));
   }
 }
+
+/* 2026-05 update: fixed external social/language docks and improved mobile readability without changing the 3D beach scene. */
+.mobile-social-dock .social-instagram-alt,
+.desktop-social-dock .social-instagram-alt {
+  background: radial-gradient(circle at 28% 22%, #fff0a6 0 16%, #ff8a4c 30%, #d62976 58%, #515bd4 100%);
+  font-size: 15px;
+  letter-spacing: -.03em;
+}
+
+.mobile-social-dock .social-language,
+.desktop-social-dock .social-language {
+  color: #113044;
+  background: linear-gradient(135deg, #ffffff, #dff7ff);
+  border: 1px solid rgba(17, 48, 68, .14);
+  font-size: 15px;
+  letter-spacing: .01em;
+}
+
+@media (max-width: 600px) {
+  .mobile-social-dock {
+    gap: 12px;
+    padding: 10px 13px;
+  }
+
+  .mobile-social-dock .social-dock-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .page-home .hero-copy {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    padding: 15px 16px;
+    background: rgba(255, 255, 255, .88);
+    border: 1px solid rgba(255, 255, 255, .86);
+    box-shadow: 0 16px 36px rgba(8, 39, 61, .22);
+  }
+
+  .page-home .hero-copy .eyebrow {
+    font-size: 11px;
+    color: #075985;
+    letter-spacing: .09em;
+  }
+
+  .page-home .hero-copy h1 {
+    font-size: clamp(23px, 6.6vw, 30px);
+    line-height: 1.22;
+    color: #102f43;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  }
+
+  .page-home .hero-copy p {
+    font-size: 14px;
+    line-height: 1.72;
+    color: #17445d;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobile-social-dock { gap: 9px; padding: 8px 9px; }
+  .mobile-social-dock .social-dock-btn { width: 40px; height: 40px; }
+  .mobile-social-dock .social-instagram-alt,
+  .mobile-social-dock .social-language { font-size: 13px; }
+}
