@@ -4404,3 +4404,32 @@ vTroikaGlyphColor = uTroikaUseGlyphColors ? aTroikaGlyphColor / 255.0 : diffuse;
           備註：${c.note}
         </div>
       `),u.push([c.lat,c.lng])}),u.length&&o.fitBounds(u,{padding:[40,40]})},[s]),q.jsxs("div",{className:"subpage map-page-bg",children:[q.jsx(Zv,{solid:!0}),q.jsxs("main",{className:"content-shell map-layout",children:[q.jsxs("aside",{className:"map-sidebar glass-card",children:[q.jsx("div",{className:"eyebrow",children:"FRIENDLY SEAFOOD MAP"}),q.jsx("h1",{children:"附近的友善海鮮地圖"}),q.jsx("p",{children:"透過地圖快速找到身邊支持永續漁法、友善養殖與產地透明的海鮮店家。從漁獲來源、販售品項到店家位置一目了然，讓你安心選購新鮮海味，也用每一次消費支持海洋永續與在地漁民。"}),q.jsx("div",{className:"filter-group",children:["全部","餐廳","超市","市場"].map(o=>q.jsx("button",{className:`chip ${n===o?"active":""}`,onClick:()=>e(o),children:o},o))}),q.jsx("div",{className:"location-list",children:s.map(o=>q.jsxs("article",{className:"location-card",children:[q.jsx("strong",{children:o.name}),q.jsxs("span",{children:[o.type,"｜",o.district]}),q.jsx("p",{children:o.species.join("、")}),q.jsx("small",{children:o.certification})]},o.id))})]}),q.jsx("section",{className:"map-stage glass-card",children:q.jsx("div",{ref:t,className:"leaflet-stage"})})]})]})}const dV=[{title:"資源狀態",desc:"確認是否為非過度捕撈、恢復中或季節性適合食用的魚種。"},{title:"漁法資訊",desc:"標示延繩釣、定置網、養殖等方式，協助使用者理解環境影響。"},{title:"產地與足跡",desc:"顯示產地、運輸距離與在地採購指標，讓購買更透明。"}];function pV(){return q.jsxs("div",{className:"subpage star-page-bg",children:[q.jsx(Zv,{solid:!0}),q.jsxs("main",{className:"content-shell sustainability-layout",children:[q.jsxs("section",{className:"sustainability-copy glass-card",children:[q.jsx("div",{className:"eyebrow",children:"AR & SUSTAINABILITY LABELS"}),q.jsx("h1",{children:"AR 互動與永續標籤"}),q.jsx("p",{children:"掃描永續標籤，開啟專屬 AR 海洋互動任務！玩家可透過手機探索漁獲故事、解鎖知識徽章、完成永續挑戰，讓海鮮選購不只是消費，更像一場有趣的海洋冒險。用遊戲化體驗提升參與感，讓永續觀念自然被看見、被分享。"}),q.jsx("div",{className:"label-grid",children:dV.map(n=>q.jsxs("article",{className:"label-card",children:[q.jsx("h2",{children:n.title}),q.jsx("p",{children:n.desc})]},n.title))})]}),q.jsx("section",{className:"model-stage glass-card",children:q.jsx("model-viewer",{src:"https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/BarramundiFish/glTF-Binary/BarramundiFish.glb",alt:"永續魚種 3D 模型",ar:!0,"ar-modes":"webxr scene-viewer quick-look","camera-controls":!0,"auto-rotate":!0,"shadow-intensity":"1",style:{width:"100%",height:"100%",background:"transparent",borderRadius:"24px"}})})]})]})}function mV(){return q.jsxs($I,{children:[q.jsx(Pc,{path:"/",element:q.jsx(aV,{})}),q.jsx(Pc,{path:"/guide",element:q.jsx(uV,{})}),q.jsx(Pc,{path:"/map",element:q.jsx(fV,{})}),q.jsx(Pc,{path:"/sustainability",element:q.jsx(pV,{})}),q.jsx(Pc,{path:"*",element:q.jsx(JI,{to:"/",replace:!0})})]})}Ly.createRoot(document.getElementById("root")).render(q.jsx(g2.StrictMode,{children:q.jsx(aD,{children:q.jsx(uV,{})})}));
+
+
+;(() => {
+  const normalize = (href) => {
+    if (!href) return '';
+    const map = {
+      '/about': '/pages/about.html',
+      '/map': '/pages/map.html',
+      '/sustainability': '/pages/sustainability.html',
+      '/pages/about': '/pages/about.html',
+      '/pages/map': '/pages/map.html',
+      '/pages/sustainability': '/pages/sustainability.html',
+      '/pages/about.html': '/pages/about.html',
+      '/pages/map.html': '/pages/map.html',
+      '/pages/sustainability.html': '/pages/sustainability.html'
+    };
+    return map[href] || '';
+  };
+  document.addEventListener('click', (event) => {
+    const target = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+    if (!target) return;
+    const href = target.getAttribute('href') || '';
+    const url = normalize(href);
+    if (!url) return;
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.assign(url);
+  }, true);
+})();
