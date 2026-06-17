@@ -4,7 +4,6 @@ import {
   Billboard,
   Float,
   Html,
-  RoundedBox,
   OrbitControls,
   Sky,
   Sparkles,
@@ -673,105 +672,147 @@ function MobileObjectHalo({ colors, active, pressed }) {
 
 
 /* ============================================================
-   透明水族箱 — 每一個 3D 入口都裝進可點選的圓弧玻璃箱
-   - 使用低透明度玻璃、水面、氣泡與柔和邊框，保留原本沙灘/天空背景
-   - 放在 InteractiveMenuObject 內，因此點擊水族箱本體也會進入對應頁面
+   透明水晶球 — 每一個 3D 入口都包進一顆可點選的玻璃球
+   - 以球體玻璃、粉色球緣、前景高光與內部星光，呈現「水晶球」質感
+   - 玻璃透明度保守，讓使用者清楚看見球內的標題、說明與 3D 模型
+   - 放在 InteractiveMenuObject 內，因此點擊水晶球任何位置都能進入對應頁面
 ============================================================ */
-function AquariumTank({ active, pressed, color = '#8eddf2', halo, mobile = false }) {
-  const tankRef = useRef()
-  const waterRef = useRef()
-  const bubblesRef = useRef()
+function CrystalBall({ active, pressed, color = '#8eddf2', halo, mobile = false }) {
+  const groupRef = useRef()
+  const shellRef = useRef()
+  const rimRef = useRef()
+  const sparkleGroupRef = useRef()
+
   const rimColor = pressed ? ((halo && halo.pressed) || color) : ((halo && halo.core) || color)
   const glowColor = (halo && halo.glow) || color
+  const brightColor = (halo && halo.rim) || '#ffffff'
 
-  const bubbles = useMemo(() => [
-    [-0.84, -0.38, 0.44, 0.035, 0.8],
-    [-0.52, 0.05, -0.44, 0.026, 1.7],
-    [-0.24, 0.42, 0.36, 0.022, 2.3],
-    [0.18, -0.18, -0.38, 0.03, 3.1],
-    [0.48, 0.28, 0.46, 0.024, 4.0],
-    [0.82, -0.04, -0.3, 0.032, 4.8]
+  const sparkles = useMemo(() => [
+    [-0.72, -0.32, 0.48, 0.024, 0.2],
+    [-0.52, 0.34, -0.36, 0.018, 1.2],
+    [-0.32, 0.86, 0.36, 0.02, 2.1],
+    [-0.08, -0.52, -0.22, 0.016, 2.8],
+    [0.2, 0.54, 0.52, 0.022, 3.7],
+    [0.46, -0.16, -0.34, 0.018, 4.3],
+    [0.72, 0.22, 0.36, 0.02, 5.1],
+    [0.34, 0.98, -0.12, 0.014, 5.9],
+    [-0.62, 1.06, 0.18, 0.014, 6.5],
+    [0.02, 0.12, 0.66, 0.018, 7.1]
   ], [])
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
-    if (tankRef.current) {
+    if (groupRef.current) {
       const pulse = 1 + Math.sin(t * 1.05) * (active ? 0.014 : 0.006)
-      tankRef.current.scale.setScalar(pulse)
+      groupRef.current.scale.setScalar(pulse)
     }
-    if (waterRef.current) {
-      waterRef.current.rotation.z = Math.sin(t * 0.85) * 0.018
-      waterRef.current.position.y = 0.23 + Math.sin(t * 1.2) * 0.012
+    if (shellRef.current) {
+      shellRef.current.rotation.y = Math.sin(t * 0.28) * 0.035
+      shellRef.current.material.opacity = pressed ? 0.32 : (active ? 0.25 : 0.18)
     }
-    if (bubblesRef.current) {
-      bubblesRef.current.children.forEach((bubble, index) => {
-        const speed = 0.28 + index * 0.035
-        const base = bubbles[index]
-        bubble.position.y = -0.42 + ((t * speed + base[4]) % 1.3)
-        bubble.position.x = base[0] + Math.sin(t * 1.4 + index) * 0.035
-        bubble.material.opacity = active ? 0.48 : 0.28
+    if (rimRef.current) {
+      rimRef.current.rotation.z += 0.0035
+      rimRef.current.material.opacity = pressed ? 0.38 : (active ? 0.28 : 0.18)
+    }
+    if (sparkleGroupRef.current) {
+      sparkleGroupRef.current.children.forEach((sparkle, index) => {
+        const base = sparkles[index]
+        sparkle.position.y = base[1] + Math.sin(t * 1.25 + base[4]) * 0.045
+        sparkle.position.x = base[0] + Math.sin(t * 0.9 + index) * 0.018
+        sparkle.material.opacity = pressed ? 0.72 : (active ? 0.52 : 0.34)
+        sparkle.scale.setScalar(1 + Math.sin(t * 2.4 + base[4]) * 0.16)
       })
     }
   })
 
   return (
-    <group ref={tankRef} position={[0, 0.66, -0.04]}>
-      {/* 主玻璃：極透明，讓使用者清楚看見裡面的 3D 模型與文字 */}
-      <RoundedBox args={[2.28, 2.72, 1.34]} radius={0.18} smoothness={8} renderOrder={0}>
+    <group ref={groupRef} position={[0, 0.66, 0.02]}>
+      {/* 主玻璃球：透明度偏低，保留清楚可見的 3D 內容 */}
+      <mesh ref={shellRef} renderOrder={1}>
+        <sphereGeometry args={[1.34, 72, 48]} />
         <meshPhysicalMaterial
-          color="#e9fbff"
+          color={glowColor}
           transparent
-          opacity={pressed ? 0.26 : (active ? 0.2 : 0.145)}
-          roughness={0.05}
+          opacity={0.18}
+          roughness={0.015}
           metalness={0}
           clearcoat={1}
-          transmission={0.38}
-          ior={1.34}
+          clearcoatRoughness={0.02}
+          transmission={0.58}
+          thickness={0.82}
+          ior={1.42}
+          envMapIntensity={1.8}
           side={THREE.DoubleSide}
           depthWrite={false}
         />
-      </RoundedBox>
+      </mesh>
 
-      {/* 圓弧玻璃邊：用 wireframe 顯示水族箱邊界，不遮住模型 */}
-      <RoundedBox args={[2.34, 2.78, 1.4]} radius={0.2} smoothness={10} renderOrder={2}>
+      {/* 內層淡色光暈：讓粉藍 / 粉橘 / 粉紅水晶球更容易分辨 */}
+      <mesh renderOrder={0} scale={[0.94, 0.94, 0.94]}>
+        <sphereGeometry args={[1.3, 48, 32]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={pressed ? 0.12 : (active ? 0.085 : 0.052)}
+          side={THREE.BackSide}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      {/* 正面球緣：像水晶球的圓形外框，而不是水族箱方框 */}
+      <mesh ref={rimRef} position={[0, 0, 0.035]} renderOrder={3}>
+        <torusGeometry args={[1.345, 0.013, 16, 160]} />
         <meshBasicMaterial
           color={rimColor}
           transparent
-          opacity={pressed ? 0.34 : (active ? 0.24 : 0.16)}
-          wireframe
+          opacity={0.18}
           depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
-      </RoundedBox>
-
-      {/* 上方亮邊與底部沙層，讓水族箱有實體感 */}
-      <mesh position={[0, 1.39, 0.02]} renderOrder={3}>
-        <boxGeometry args={[1.92, 0.032, 1.02]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={active ? 0.42 : 0.28} depthWrite={false} />
-      </mesh>
-      <mesh position={[0, -1.29, 0.02]} renderOrder={1}>
-        <boxGeometry args={[2.02, 0.08, 1.05]} />
-        <meshStandardMaterial color="#f2d6a5" roughness={0.9} metalness={0} transparent opacity={0.82} />
       </mesh>
 
-      {/* 水面線：淡藍透明，不改變原本海景，只強化「裝在水族箱」的感覺 */}
-      <mesh ref={waterRef} position={[0, 0.23, 0.03]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={3}>
-        <planeGeometry args={[1.98, 0.98, 1, 1]} />
-        <meshBasicMaterial color="#aeeeff" transparent opacity={pressed ? 0.22 : (active ? 0.16 : 0.1)} side={THREE.DoubleSide} depthWrite={false} />
+      {/* 水晶球內部的水平折射線，增加球面立體感 */}
+      <mesh position={[0, -0.02, 0.04]} scale={[1, 0.33, 1]} renderOrder={2}>
+        <torusGeometry args={[1.08, 0.008, 12, 128]} />
+        <meshBasicMaterial color={brightColor} transparent opacity={active ? 0.18 : 0.105} depthWrite={false} />
+      </mesh>
+      <mesh position={[0, 0.22, 0.055]} scale={[0.78, 0.2, 1]} renderOrder={2}>
+        <torusGeometry args={[1.0, 0.006, 12, 128]} />
+        <meshBasicMaterial color={rimColor} transparent opacity={active ? 0.14 : 0.08} depthWrite={false} />
       </mesh>
 
-      <group ref={bubblesRef}>
-        {bubbles.map(([x, y, z, radius], index) => (
+      {/* 前方玻璃高光：固定在球面前側，營造清澈反光 */}
+      <mesh position={[-0.48, 0.58, 1.12]} rotation={[0, 0, -0.34]} scale={[0.5, 0.18, 1]} renderOrder={4}>
+        <circleGeometry args={[0.42, 40]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={pressed ? 0.48 : (active ? 0.36 : 0.24)} depthWrite={false} />
+      </mesh>
+      <mesh position={[0.56, -0.38, 1.1]} rotation={[0, 0, -0.18]} scale={[0.34, 0.11, 1]} renderOrder={4}>
+        <circleGeometry args={[0.3, 32]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={active ? 0.18 : 0.11} depthWrite={false} />
+      </mesh>
+
+      {/* 球內微光星點，避免遮擋模型，只做輕微閃爍 */}
+      <group ref={sparkleGroupRef}>
+        {sparkles.map(([x, y, z, radius], index) => (
           <mesh key={index} position={[x, y, z]} renderOrder={4}>
-            <sphereGeometry args={[radius, 14, 14]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.28} depthWrite={false} />
+            <sphereGeometry args={[radius, 12, 12]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.34} depthWrite={false} />
           </mesh>
         ))}
       </group>
 
-      <pointLight color={glowColor} intensity={pressed ? 0.42 : (active ? 0.28 : 0.16)} distance={mobile ? 2.1 : 2.7} decay={2} />
+      {/* 底部淡淡接觸影，不更動原本沙灘，只讓水晶球像放在沙灘上 */}
+      <mesh position={[0, -1.34, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.15, 0.42, 1]} renderOrder={0}>
+        <circleGeometry args={[1, 64]} />
+        <meshBasicMaterial color={rimColor} transparent opacity={active ? 0.13 : 0.075} depthWrite={false} />
+      </mesh>
+
+      <pointLight color={glowColor} intensity={pressed ? 0.48 : (active ? 0.32 : 0.18)} distance={mobile ? 2.2 : 2.9} decay={2} />
     </group>
   )
 }
+
 
 /* ============================================================
    互動物件容器
@@ -813,13 +854,13 @@ function InteractiveMenuObject({ item, active, setActiveKey }) {
 
   return (
     <group ref={ref} position={item.position} scale={item.objectScale || 1} {...events}>
-      {/* 透明點擊範圍：擴大到整座水族箱；使用者點玻璃箱任何位置都能進入所屬頁面。 */}
-      <mesh position={[0, 0.66, 0.04]} scale={[1.55, 1.55, 0.28]} renderOrder={10}>
-        <sphereGeometry args={[0.92, 32, 16]} />
+      {/* 透明點擊範圍：擴大到整顆水晶球；使用者點球體任何位置都能進入所屬頁面。 */}
+      <mesh position={[0, 0.66, 0.04]} scale={[1.08, 1.08, 1.08]} renderOrder={10}>
+        <sphereGeometry args={[1.34, 48, 32]} />
         <meshBasicMaterial transparent opacity={0.01} depthWrite={false} color="#ffffff" />
       </mesh>
 
-      <AquariumTank active={active || hovered} pressed={pressed} color={item.accent} halo={item.halo} mobile={item.haloVertical} />
+      <CrystalBall active={active || hovered} pressed={pressed} color={item.accent} halo={item.halo} mobile={item.haloVertical} />
 
       <Float speed={active ? 2.3 : 1.4} rotationIntensity={0.25} floatIntensity={0.3}>
         {item.key === 'guide' && <EyesGuide active={active || hovered} color={item.accent} showBase={item.showBase} />}
@@ -827,9 +868,7 @@ function InteractiveMenuObject({ item, active, setActiveKey }) {
         {item.key === 'ar' && <NewtonCradle active={active || hovered} color={item.accent} showBase={item.showBase} />}
       </Float>
 
-      {/* 光圈 / 光暈
-          桌機、平板：完全維持原本水平光圈。
-          手機版：改成直立 O 型柔光光暈，第一次進入畫面就像 3D 模型外圍被光暈包住。 */}
+      {/* 水晶球外側輕柔色暈：保留很淡的可點選提示，不影響沙灘與天空背景。 */}
       {item.haloVertical ? (
         <MobileObjectHalo colors={item.mobileHalo} active={active || hovered} pressed={pressed} />
       ) : (
@@ -881,9 +920,9 @@ function InteractiveMenuObject({ item, active, setActiveKey }) {
         </>
       )}
 
-      <Billboard position={[0, 1.82, 0.05]} follow>
+      <Billboard position={[0, 1.58, 0.58]} follow>
         <Text
-          fontSize={0.2}
+          fontSize={0.18}
           color="#183b56"
           anchorX="center"
           anchorY="middle"
@@ -908,8 +947,8 @@ function InteractiveMenuObject({ item, active, setActiveKey }) {
           {item.shortLabel}
         </Text>
         <Text
-          position={[0, -0.5, 0]}
-          fontSize={0.105}
+          position={[0, -0.48, 0]}
+          fontSize={0.1}
           color="#387f9f"
           anchorX="center"
           anchorY="middle"
