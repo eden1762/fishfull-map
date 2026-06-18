@@ -1,27 +1,25 @@
-# Sustainable Catch Map — Pure 2D Edition
+# Sustainable Catch Map - Immersive Full Version
 
-本版本將網站翻新為純 2D、黃白黑三色的輕量設計，重點是降低暈眩感、加快載入、讓市場現場使用者可以快速點選。
+這份版本可直接覆蓋原本 GitHub repo 的前端，並保留 `api/webhook.js` 的 Vercel Serverless Function 架構。
 
-## 主要頁面
+## 已完成內容
+- 沉浸式 3D 首頁 `/`
+- 網站導覽 `/guide`
+- 友善海鮮地圖 `/map`
+- AR 與永續標籤 `/sustainability`
+- 保留 LINE webhook `api/webhook.js`
 
-- `/`：純 2D 首頁，首頁只使用黃色、白色、黑色；Instagram icon 保留原社群色彩。
-- `/pages/about.html`：我們的理念。
-- `/pages/map.html`：友善海鮮據點清單。
-- `/pages/sustainability.html`：永續標籤資訊卡。
-
-## 設計原則
-
-1. 固定版面，不使用動態場景。
-2. 不使用大型動態視覺或沉重互動元件。
-3. 首頁顏色限制為黃、白、黑三色，降低視覺雜訊。
-4. 所有主要入口保留為清楚可點選的按鈕。
-
-## 開發指令
-
+## 安裝
 ```bash
 npm install
 npm run dev
-npm run build
 ```
 
-Vercel 部署時請以專案根目錄建置，建置指令使用 `npm run build`，輸出目錄為 `dist`。
+## 部署到 Vercel
+這份專案使用 Vite + React SPA 結構，已附 `vercel.json`，可支援 `/guide`、`/map`、`/sustainability` 這類前端路由。
+
+## 建議下一步
+1. 把 3D 幾何角色替換成真正 GLB 模型
+2. 把 mapPoints.js 改成真實店家資料
+3. 把 model-viewer 的魚模型改成自有資產
+4. 若要保留 LIFF，可在 React 中額外補上 LIFF 初始化模組
