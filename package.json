@@ -1,13 +1,13 @@
 {
-  "name": "sustainable-catch-map-static-vercel",
+  "name": "sustainable-catch-map-static",
   "private": true,
-  "version": "2.1.1",
+  "version": "3.0.0",
   "type": "module",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "build": "node copy-static.cjs",
-    "preview": "python3 -m http.server 4173 -d dist"
+    "start": "python3 -m http.server 4173",
+    "preview": "python3 -m http.server 4173"
   }
 }

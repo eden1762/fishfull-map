@@ -83,7 +83,7 @@
     '假日可見產地直送與教育展示。': 'Offers direct-from-origin seafood and educational displays on weekends.',
     '面海餐桌體驗，提供永續捕撈資訊。': 'Offers seaside dining with sustainable fishing information.',
     '首頁': 'Home',
-    '沉浸式 3D 永續漁獲地圖首頁。': 'Immersive 3D Sustainable Catch Map home page.',
+    '以不可旋轉的海洋、沙灘與陽光首頁，快速探索永續理念、友善海鮮地圖與 AR 永續標籤。': 'A non-rotating ocean, beach, and sunshine home page for quickly exploring sustainability philosophy, friendly seafood maps, and AR sustainability labels.',
     'Sustainable Catch Map 的核心理念、永續問題意識與實踐方向。': 'The core philosophy, sustainability problem awareness, and practice direction of Sustainable Catch Map.',
     '社群連結': 'Social links',
     '切換成英文': 'Switch to English',
@@ -177,7 +177,7 @@
       zh: {
         home: {
           title: '永續漁獲地圖 | 首頁',
-          description: '沉浸式 3D 永續漁獲地圖首頁。'
+          description: '以不可旋轉的海洋、沙灘與陽光首頁，快速探索永續理念、友善海鮮地圖與 AR 永續標籤。'
         },
         about: {
           title: '永續漁獲地圖 | 我們的理念',
@@ -195,7 +195,7 @@
       en: {
         home: {
           title: 'Sustainable Catch Map | Home',
-          description: 'An immersive 3D beach experience that connects seafood choices with ocean sustainability.'
+          description: 'A non-rotating ocean, beach, and sunshine home page for exploring seafood choices and ocean sustainability.'
         },
         about: {
           title: 'Sustainable Catch Map | Our Philosophy',
@@ -288,8 +288,7 @@
       event.preventDefault();
       var next = currentLang() === 'en' ? 'zh' : 'en';
       localStorage.setItem(STORAGE_KEY, next);
-      // The 3D homepage labels are rendered inside WebGL/Three.js, not normal DOM text.
-      // Reload only on the homepage so those Canvas labels can be recreated in the selected language.
+      // The homepage is rebuilt after language changes so input[type=button] values and layout text stay synchronized.
       if (document.querySelector('.page-home')) {
         window.location.reload();
         return;
