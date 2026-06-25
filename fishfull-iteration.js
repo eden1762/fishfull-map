@@ -20,13 +20,13 @@
       evidence: ['合作店家名單', '魚販與漁業夥伴故事', '市場或餐廳照片', '社區與校園活動紀錄', '6–11 月每月小行動'],
       cta: '下一步：先選一條主推魚、一家合作點、一份零失敗食譜，讓客人今天就能試買看看。',
       pulseTitle: '10 秒買魚回饋',
-      pulseBody: '一開始不用長問卷。現場只問三件事，就知道客人是看看而已，還是真的更願意把好魚帶回家。',
+      pulseBody: '一開始不用長問卷。現場只問三件事，再補一句客人原話，就知道客人是看看而已，還是真的更願意把好魚帶回家。',
       pulseQuestions: [
         ['01', '今天有買這條魚嗎？', '已購買 / 考慮中 / 沒買，想先學料理'],
         ['02', '是什麼讓你敢買？', '紅黃綠燈、店家推薦、零失敗食譜、價格或產地'],
         ['03', '下次還會回來買嗎？', '會 / 可能會 / 需要更清楚的料理或價格資訊']
       ],
-      pulseNote: '店家每天先記 3–5 筆就好。久了就能看出哪種說法、哪道料理、哪條魚最能讓人從猶豫變成下手買。',
+      pulseNote: '店家每天先記 3–5 筆就好。多留一句客人原話，久了就能看出哪種說法、哪道料理、哪條魚最能讓人從猶豫變成下手買。',
       pulseButton: '我買了，留下 10 秒回饋',
       formTitle: '現場回饋小卡',
       formBody: '給魚販、餐飲店、社區或校園試用：先把每筆回饋存在這台裝置，收攤後就能複製給團隊整理。',
@@ -40,11 +40,13 @@
       reasonOptions: ['紅黃綠燈', '店家推薦', '零失敗食譜', '價格清楚', '產地 / 漁法故事'],
       revisitLabel: '下次會回來買嗎？',
       revisitOptions: ['會', '可能會', '需要更清楚的料理或價格'],
+      quoteLabel: '客人原話',
+      quotePlaceholder: '例如：這個我會煮嗎？魚刺多不多？小孩敢吃嗎？',
       saveButton: '存一筆回饋',
       saved: '已存入這台裝置，下一筆可以繼續記。',
       summaryTitle: '目前本機累積',
       summaryEmpty: '尚未記錄，先從 1 筆開始。',
-      summaryLabels: ['總筆數', '已購買', '會/可能會回來', '最新一筆'],
+      summaryLabels: ['總筆數', '已購買', '會/可能會回來', '最新一筆', '客人原話'],
       exportLabel: '複製摘要給團隊',
       exportCopied: '摘要已複製，可以貼到工作紀錄。',
       exportFallback: '瀏覽器無法自動複製，請直接選取摘要。'
@@ -65,13 +67,13 @@
       evidence: ['Partner spots', 'Vendor and fisheries stories', 'Market or restaurant photos', 'Community and campus actions', 'June–November monthly moves'],
       cta: 'Next move: start with one featured fish, one partner spot, and one zero-failure recipe so shoppers can try buying today.',
       pulseTitle: '10-second seafood feedback',
-      pulseBody: 'No long survey at the start. Ask only three quick questions to see whether shoppers move from “just looking” to taking good fish home.',
+      pulseBody: 'No long survey at the start. Ask only three quick questions, then save one shopper quote to see whether people move from “just looking” to taking good fish home.',
       pulseQuestions: [
         ['01', 'Did you buy this fish today?', 'Bought / Thinking / Not yet, I need cooking help'],
         ['02', 'What made buying easier?', 'Traffic light, vendor tip, zero-failure recipe, price, or origin'],
         ['03', 'Would you come back for it?', 'Yes / Maybe / Need clearer recipe or price info']
       ],
-      pulseNote: 'A store only needs 3–5 notes a day at first. Over time, it becomes clear which fish, recipe, and selling line helps people stop hesitating and start buying.',
+      pulseNote: 'A store only needs 3–5 notes a day at first. One real shopper quote helps reveal which fish, recipe, and selling line turns hesitation into a purchase.',
       pulseButton: 'I bought it — leave 10-second feedback',
       formTitle: 'On-site feedback card',
       formBody: 'For vendors, restaurants, communities, or campus trials: each note is saved on this device first, then can be copied to the team after closing.',
@@ -85,11 +87,13 @@
       reasonOptions: ['Traffic light', 'Vendor tip', 'Zero-failure recipe', 'Clear price', 'Origin / fishing story'],
       revisitLabel: 'Would they come back?',
       revisitOptions: ['Yes', 'Maybe', 'Need clearer recipe or price'],
+      quoteLabel: 'Shopper quote',
+      quotePlaceholder: 'Example: Can I cook this? Does it have many bones? Will kids eat it?',
       saveButton: 'Save feedback',
       saved: 'Saved on this device. Ready for the next note.',
       summaryTitle: 'Saved on this device',
       summaryEmpty: 'No notes yet. Start with one.',
-      summaryLabels: ['Total notes', 'Bought', 'Come back yes/maybe', 'Latest note'],
+      summaryLabels: ['Total notes', 'Bought', 'Come back yes/maybe', 'Latest note', 'Shopper quote'],
       exportLabel: 'Copy summary for team',
       exportCopied: 'Summary copied. Paste it into your work log.',
       exportFallback: 'Auto-copy is not available. Please select the summary text.'
@@ -124,12 +128,13 @@
     var maybe = items.filter(function (item) { return item.revisit === text.revisitOptions[1]; }).length;
     var yes = items.filter(function (item) { return item.revisit === text.revisitOptions[0]; }).length;
     var latest = items[items.length - 1];
-    var labels = text.summaryLabels || ['Total', 'Bought', 'Come back yes/maybe', 'Latest'];
+    var labels = text.summaryLabels || ['Total', 'Bought', 'Come back yes/maybe', 'Latest', 'Quote'];
     return [
       labels[0] + ': ' + items.length,
       labels[1] + ': ' + bought,
       labels[2] + ': ' + yes + '/' + maybe,
-      labels[3] + ': ' + (latest.place || '-') + ' / ' + (latest.fish || '-') + ' / ' + latest.bought + ' / ' + latest.reason
+      labels[3] + ': ' + (latest.place || '-') + ' / ' + (latest.fish || '-') + ' / ' + latest.bought + ' / ' + latest.reason,
+      labels[4] + ': ' + (latest.quote || '-')
     ].join('\n');
   }
 
@@ -173,7 +178,8 @@
       '.fishfull-feedback p{margin:8px 0 0;color:#51656f;line-height:1.6}',
       '.fishfull-feedback__grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}',
       '.fishfull-feedback label{font-weight:800;color:#284c5a}',
-      '.fishfull-feedback input[type="text"]{width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border-radius:14px;border:1px solid rgba(31,92,120,.18);font:inherit}',
+      '.fishfull-feedback input[type="text"],.fishfull-feedback textarea{width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border-radius:14px;border:1px solid rgba(31,92,120,.18);font:inherit}',
+      '.fishfull-feedback textarea{min-height:82px;resize:vertical;line-height:1.55}',
       '.fishfull-feedback__group{margin-top:14px}',
       '.fishfull-feedback__choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}',
       '.fishfull-feedback__choice{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;background:#f3fbff;border:1px solid rgba(31,92,120,.12);font-size:.9rem}',
@@ -199,6 +205,7 @@
         '<div class="fishfull-feedback__group"><label>' + escapeHtml(text.boughtLabel) + '</label><div class="fishfull-feedback__choices">' + optionTags('bought', text.boughtOptions) + '</div></div>',
         '<div class="fishfull-feedback__group"><label>' + escapeHtml(text.reasonLabel) + '</label><div class="fishfull-feedback__choices">' + optionTags('reason', text.reasonOptions) + '</div></div>',
         '<div class="fishfull-feedback__group"><label>' + escapeHtml(text.revisitLabel) + '</label><div class="fishfull-feedback__choices">' + optionTags('revisit', text.revisitOptions) + '</div></div>',
+        '<div class="fishfull-feedback__group"><label>' + escapeHtml(text.quoteLabel) + '<textarea name="quote" maxlength="120" placeholder="' + escapeHtml(text.quotePlaceholder) + '"></textarea></label></div>',
         '<div class="fishfull-feedback__actions"><button class="fishfull-feedback__save" type="submit">' + escapeHtml(text.saveButton) + '</button><button class="fishfull-feedback__export" type="button" data-fishfull-export>' + escapeHtml(text.exportLabel) + '</button><span class="fishfull-feedback__status" aria-live="polite"></span></div>',
         '<div class="fishfull-feedback__summary" data-fishfull-summary aria-label="' + escapeHtml(text.summaryTitle) + '"></div>',
       '</form>'
@@ -227,7 +234,8 @@
         fish: String(data.get('fish') || '').trim(),
         bought: String(data.get('bought') || ''),
         reason: String(data.get('reason') || ''),
-        revisit: String(data.get('revisit') || '')
+        revisit: String(data.get('revisit') || ''),
+        quote: String(data.get('quote') || '').trim()
       });
       writeFeedback(items);
       form.reset();
