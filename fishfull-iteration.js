@@ -49,7 +49,12 @@
       summaryLabels: ['總筆數', '已購買', '會/可能會回來', '最新一筆', '客人原話'],
       exportLabel: '複製摘要給團隊',
       exportCopied: '摘要已複製，可以貼到工作紀錄。',
-      exportFallback: '瀏覽器無法自動複製，請直接選取摘要。'
+      exportFallback: '瀏覽器無法自動複製，請直接選取摘要。',
+      quickEyebrow: '現場快速路線',
+      quickTitle: '不用讀完整頁，先做這兩件事',
+      quickBody: '客人站在攤前時，先讓他找到買得到的地方；買完或差一點買，再立刻記一筆回饋。',
+      quickMap: '找附近合作點',
+      quickFeedback: '記 10 秒回饋'
     },
     en: {
       eyebrow: 'Seafood buying helper',
@@ -96,7 +101,12 @@
       summaryLabels: ['Total notes', 'Bought', 'Come back yes/maybe', 'Latest note', 'Shopper quote'],
       exportLabel: 'Copy summary for team',
       exportCopied: 'Summary copied. Paste it into your work log.',
-      exportFallback: 'Auto-copy is not available. Please select the summary text.'
+      exportFallback: 'Auto-copy is not available. Please select the summary text.',
+      quickEyebrow: 'Quick field path',
+      quickTitle: 'Skip the long read and do these two things first',
+      quickBody: 'When someone is at the stall, help them find where to buy. After they buy or almost buy, save one quick note right away.',
+      quickMap: 'Find partner spots',
+      quickFeedback: 'Save 10-second feedback'
     }
   };
 
@@ -173,6 +183,13 @@
       '.fishfull-pulse__question strong{display:block;margin-top:10px;color:#3b2b16}',
       '.fishfull-pulse__question small{display:block;margin-top:6px;color:#765f3d;line-height:1.5}',
       '.fishfull-pulse__button{display:inline-flex;margin-top:16px;padding:11px 16px;border-radius:999px;background:#f29b2e;color:#fff;text-decoration:none;font-weight:900;box-shadow:0 10px 24px rgba(242,155,46,.24);border:0;cursor:pointer}',
+      '.fishfull-field-quick{margin:20px 0 0;padding:18px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,247,220,.82));border:1px solid rgba(222,151,54,.22)}',
+      '.fishfull-field-quick__eyebrow{margin:0 0 8px;color:#0f7898;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:900}',
+      '.fishfull-field-quick h3{margin:0;color:#12354a;font-size:1.35rem;line-height:1.2}',
+      '.fishfull-field-quick p{margin:10px 0 0;color:#4f6570;line-height:1.65;font-weight:700}',
+      '.fishfull-field-quick__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}',
+      '.fishfull-field-quick__actions a{display:inline-flex;padding:11px 16px;border-radius:999px;background:#12354a;color:#fff;font-weight:900;text-decoration:none}',
+      '.fishfull-field-quick__actions a:last-child{background:#f29b2e;color:#fff}',
       '.fishfull-feedback{margin-top:18px;padding:18px;border-radius:24px;background:#fff;border:1px solid rgba(15,120,152,.16)}',
       '.fishfull-feedback-panel .fishfull-feedback{margin-top:22px}',
       '.fishfull-feedback h4{margin:0;color:#12354a;font-size:1.1rem}',
@@ -210,6 +227,20 @@
         '<div class="fishfull-feedback__actions"><button class="fishfull-feedback__save" type="submit">' + escapeHtml(text.saveButton) + '</button><button class="fishfull-feedback__export" type="button" data-fishfull-export>' + escapeHtml(text.exportLabel) + '</button><span class="fishfull-feedback__status" aria-live="polite"></span></div>',
         '<div class="fishfull-feedback__summary" data-fishfull-summary aria-label="' + escapeHtml(text.summaryTitle) + '"></div>',
       '</form>'
+    ].join('');
+  }
+
+  function quickFieldActions(text) {
+    return [
+      '<aside class="fishfull-field-quick" id="fishfull-field-quick" aria-labelledby="fishfull-field-quick-title">',
+        '<p class="fishfull-field-quick__eyebrow">' + escapeHtml(text.quickEyebrow) + '</p>',
+        '<h3 id="fishfull-field-quick-title">' + escapeHtml(text.quickTitle) + '</h3>',
+        '<p>' + escapeHtml(text.quickBody) + '</p>',
+        '<div class="fishfull-field-quick__actions">',
+          '<a href="/pages/map.html">' + escapeHtml(text.quickMap) + '</a>',
+          '<a href="#fishfull-feedback-form">' + escapeHtml(text.quickFeedback) + '</a>',
+        '</div>',
+      '</aside>'
     ].join('');
   }
 
@@ -266,6 +297,10 @@
     if (feedbackPanel) {
       feedbackPanel.innerHTML = feedbackForm(text);
       bindFeedback(text);
+      var section = feedbackPanel.closest ? feedbackPanel.closest('.content-section') : null;
+      if (section && !document.getElementById('fishfull-field-quick')) {
+        section.insertAdjacentHTML('beforebegin', quickFieldActions(text));
+      }
       var oldLoop = document.getElementById('fishfull-behavior-loop');
       if (oldLoop && oldLoop.parentNode !== feedbackPanel) oldLoop.remove();
       return;
