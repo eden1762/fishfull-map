@@ -1,0 +1,111 @@
+(function () {
+  'use strict';
+
+  var COPY = {
+    bream: {
+      zhTitle: '掃碼後 30 秒決策',
+      enTitle: '30-second QR choice',
+      zhBadge: '黃燈先問清楚',
+      enBadge: 'Yellow: ask first',
+      zhLead: '赤鯮適合想吃細緻口感的人，但先把來源與漁法問清楚，這餐才買得安心。',
+      enLead: 'Crimson sea bream is a delicate dinner pick. Confirm origin and catch method before you commit.',
+      zhSteps: ['綠：眼亮、鰓紅、來源說得清楚', '黃：魚況好，但產地或漁法還不明', '紅：鰓暗、魚身黏、味道不舒服'],
+      enSteps: ['Green: clear eyes, bright gills, clear origin', 'Yellow: fish looks good, but origin or method is unclear', 'Red: dull gills, sticky skin, off smell'],
+      zhAsk: '這尾赤鯮今天哪裡來？用什麼方式捕的？',
+      enAsk: 'Where is this bream from today, and how was it caught?'
+    },
+    mackerel: {
+      zhTitle: '掃碼後 30 秒決策',
+      enTitle: '30-second QR choice',
+      zhBadge: '綠燈日常好煮',
+      enBadge: 'Green: easy daily fish',
+      zhLead: '花腹鯖最怕放太久。先看銀腹與條紋，再聞味道，適合就直接帶回家鹽烤。',
+      enLead: 'Mackerel rewards fast decisions. Read the belly, stripes, and aroma, then take it home for a crisp grill.',
+      zhSteps: ['綠：銀腹亮、條紋清、海味舒服', '黃：油脂夠，但離冰時間要再問', '紅：腥味重、魚腹軟、表面發暗'],
+      enSteps: ['Green: silver belly, clear stripes, clean ocean aroma', 'Yellow: good fat, but ask time off ice', 'Red: heavy smell, soft belly, dull surface'],
+      zhAsk: '這批花腹鯖剛離冰多久？今天適合鹽烤嗎？',
+      enAsk: 'How long has this mackerel been off ice, and is it good for grilling today?'
+    },
+    mahi: {
+      zhTitle: '掃碼後 30 秒決策',
+      enTitle: '30-second QR choice',
+      zhBadge: '綠燈厚切好料理',
+      enBadge: 'Green: firm fillet win',
+      zhLead: '鬼頭刀適合想要厚切、香煎、餐盒的人。先看切面與厚度，問保存時間再決定。',
+      enLead: 'Mahi-mahi is a firm fillet win for searing and bowls. Check the cut surface and storage time first.',
+      zhSteps: ['綠：切面乾淨、肉厚、沒有刺鼻味', '黃：看起來可買，但邊緣略乾要快煮', '紅：切面出水、顏色鈍、聞起來怪'],
+      enSteps: ['Green: clean cut, thick flesh, no harsh smell', 'Yellow: buyable, but dry edges mean cook soon', 'Red: watery cut, dull color, strange smell'],
+      zhAsk: '這片鬼頭刀切好多久？香煎會不會太乾？',
+      enAsk: 'When was this mahi-mahi cut, and how do I sear it without drying it out?'
+    }
+  };
+
+  function lang() {
+    return localStorage.getItem('scm-language') === 'en' || document.documentElement.lang === 'en' ? 'en' : 'zh';
+  }
+
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+    });
+  }
+
+  function get(item, key) {
+    return lang() === 'en' ? item['en' + key] : item['zh' + key];
+  }
+
+  function render(stage) {
+    if (!stage) return;
+    var tone = stage.dataset.fishTone || 'bream';
+    var item = COPY[tone] || COPY.bream;
+    var card = stage.querySelector('[data-ar-qr-decision]');
+    if (!card) {
+      card = document.createElement('aside');
+      card.className = 'ar-qr-decision';
+      card.setAttribute('data-ar-qr-decision', '');
+      card.setAttribute('aria-live', 'polite');
+      var anchor = stage.querySelector('[data-ar-ice-clock]') || stage.querySelector('.ar-toolbar');
+      stage.insertBefore(card, anchor || null);
+    }
+
+    card.innerHTML = [
+      '<div class="ar-qr-decision__top">',
+      '  <strong>' + esc(get(item, 'Title')) + '</strong>',
+      '  <span>' + esc(get(item, 'Badge')) + '</span>',
+      '</div>',
+      '<p>' + esc(get(item, 'Lead')) + '</p>',
+      '<ul class="ar-qr-decision__steps">' + get(item, 'Steps').map(function (step, index) {
+        return '<li><b>' + (index + 1) + '</b><span>' + esc(step) + '</span></li>';
+      }).join('') + '</ul>',
+      '<button class="ar-qr-decision__ask" type="button">' + esc(get(item, 'Ask')) + '</button>'
+    ].join('');
+  }
+
+  function boot() {
+    var stage = document.querySelector('.ar-stage');
+    if (!stage) {
+      window.setTimeout(boot, 140);
+      return;
+    }
+    render(stage);
+    new MutationObserver(function (mutations) {
+      if (mutations.some(function (mutation) { return mutation.attributeName === 'data-fish-tone'; })) render(stage);
+    }).observe(stage, { attributes: true });
+    document.addEventListener('click', function (event) {
+      if (event.target.closest && event.target.closest('.language-toggle')) {
+        window.setTimeout(function () { render(stage); }, 120);
+        window.setTimeout(function () { render(stage); }, 320);
+      }
+      var ask = event.target.closest && event.target.closest('.ar-qr-decision__ask');
+      if (ask && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ask.textContent.trim()).then(function () {
+          ask.classList.add('is-copied');
+          window.setTimeout(function () { ask.classList.remove('is-copied'); }, 900);
+        }).catch(function () {});
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
