@@ -38,6 +38,20 @@
   flex: 0 1 auto;
 }
 
+.page-feedback .feedback-status {
+  flex: 1 1 100%;
+  min-height: 1.4em;
+  padding: 0 12px 2px;
+  color: #0f4d5e;
+  font-size: .92rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.page-feedback .feedback-summary {
+  scroll-margin-bottom: 120px;
+}
+
 @media (max-width: 640px) {
   .page-feedback .feedback-actions {
     bottom: calc(10px + env(safe-area-inset-bottom));
@@ -47,6 +61,12 @@
   .page-feedback .feedback-save,
   .page-feedback .feedback-export {
     width: 100%;
+  }
+
+  .page-feedback .feedback-status {
+    order: -1;
+    padding-top: 2px;
+    text-align: left;
   }
 
   .page-feedback .feedback-choice {
