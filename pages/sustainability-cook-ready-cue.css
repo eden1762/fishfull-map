@@ -1,0 +1,87 @@
+.ar-cook-ready-cue {
+  position: absolute;
+  right: clamp(14px, 3vw, 24px);
+  top: clamp(88px, 13vw, 124px);
+  z-index: 9;
+  width: min(292px, calc(100% - 28px));
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 50px rgba(7, 39, 61, 0.17);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #123047;
+}
+
+.ar-cook-ready-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.ar-cook-ready-head strong {
+  font-size: 0.86rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.ar-cook-ready-head a {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: #123047;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.ar-cook-ready-cue ol {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ar-cook-ready-cue li,
+.ar-cook-ready-cue p {
+  font-size: 0.76rem;
+  line-height: 1.42;
+  color: rgba(18, 48, 71, 0.84);
+}
+
+.ar-cook-ready-cue p {
+  margin: 9px 0 0;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(18, 48, 71, 0.18);
+}
+
+@media (max-width: 680px) {
+  .ar-cook-ready-cue {
+    top: auto;
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+    padding: 10px 12px;
+  }
+
+  .ar-stage.is-ar-on .ar-cook-ready-cue {
+    bottom: 88px;
+  }
+
+  .ar-cook-ready-cue li,
+  .ar-cook-ready-cue p {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-cook-ready-cue {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
