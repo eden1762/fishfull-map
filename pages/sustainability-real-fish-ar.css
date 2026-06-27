@@ -1,0 +1,90 @@
+/* Real fish 3D model layer for the sustainability AR page. */
+.sustainability-layout .model-stage,
+.ar-stage {
+  background:
+    radial-gradient(circle at 22% 16%, rgba(255,255,255,.82), transparent 25%),
+    radial-gradient(circle at 74% 72%, rgba(75,198,230,.18), transparent 26%),
+    linear-gradient(160deg, #def8ff 0%, #effcff 48%, #fff2dd 100%);
+}
+
+.ar-title-pill[data-ar-title] {
+  display: inline-flex !important;
+}
+
+.ar-ocean-glow {
+  position: absolute;
+  inset: 16% 8% 18%;
+  z-index: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,.58), rgba(98,210,232,.18) 44%, transparent 70%);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.ar-model {
+  position: absolute;
+  inset: 6% 3% 12%;
+  z-index: 3;
+  width: 94%;
+  height: 82%;
+  display: block;
+  background: transparent;
+  filter: drop-shadow(0 28px 34px rgba(4,35,55,.20));
+  animation: fishfullFloat 4.8s ease-in-out infinite;
+  --poster-color: transparent;
+  --progress-bar-color: rgba(13,127,179,.55);
+  --progress-bar-height: 4px;
+}
+
+.ar-stage[data-fish-tone="bream"] .ar-model { filter: drop-shadow(0 28px 36px rgba(179,42,56,.24)); }
+.ar-stage[data-fish-tone="mackerel"] .ar-model { filter: drop-shadow(0 28px 36px rgba(23,100,150,.25)); }
+.ar-stage[data-fish-tone="mahi"] .ar-model { filter: drop-shadow(0 28px 36px rgba(210,148,28,.24)); }
+
+@keyframes fishfullFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.015); }
+}
+
+.ar-model-fallback {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.78);
+  color: #123047;
+  font-weight: 900;
+  box-shadow: 0 14px 30px rgba(8,39,61,.14);
+}
+
+model-viewer:defined + .ar-model-fallback {
+  display: none;
+}
+
+.ar-real-ar-btn {
+  position: absolute;
+  right: 18px;
+  bottom: 78px;
+  background: linear-gradient(90deg, #123047, #0d7fb3);
+  color: #fff;
+  border-color: rgba(255,255,255,.92);
+}
+
+.ar-fish-btn.is-bream { --fish-color: #df4b57; }
+.ar-fish-btn.is-mackerel { --fish-color: #1789c8; }
+.ar-fish-btn.is-mahi { --fish-color: #d9a42a; }
+
+@media (max-width: 768px) {
+  .ar-model {
+    inset: 14% -7% 18%;
+    width: 114%;
+    height: 68%;
+  }
+
+  .ar-real-ar-btn {
+    right: 12px;
+    bottom: 74px;
+  }
+}
