@@ -7,27 +7,57 @@
       enTitle: 'Crimson Sea Bream',
       zhBody: '紅亮魚身、肉質細緻，適合清蒸、乾煎與宴客餐桌。',
       enBody: 'A red-toned fish with delicate meat, great for steaming or pan-frying.',
+      zhStatus: '黃燈：看來源與漁法再下手',
+      enStatus: 'Yellow: check origin and fishing method first',
+      zhMethod: '現場問法：今天哪裡來？適合清蒸還是乾煎？',
+      enMethod: 'Ask: where is it from today, and is it better steamed or pan-fried?',
+      zhCook: '料理提示：薑絲清蒸 8～10 分鐘，少調味就能吃出甜味。',
+      enCook: 'Cooking tip: steam with ginger for 8–10 minutes and keep seasoning light.',
+      zhNext: '下一步：問清楚來源，買完到回饋小卡記一句原因。',
+      enNext: 'Next: confirm origin, then leave one quick feedback note after buying.',
       src: '../assets/models/crimson-sea-bream.gltf',
       tone: 'bream',
-      orbit: '68deg 80deg 4.1m'
+      orbit: '68deg 80deg 4.1m',
+      exposure: '1.08',
+      shadow: '1.15'
     },
     mackerel: {
       zhTitle: '花腹鯖',
       enTitle: 'Pacific Mackerel',
       zhBody: '藍背銀腹、油脂香，適合乾煎、鹽烤，也很適合魚販一句話介紹。',
       enBody: 'A blue-backed oily fish, easy to recommend for grilling or pan-frying.',
+      zhStatus: '綠燈：新手友善，適合日常餐桌',
+      enStatus: 'Green: beginner-friendly for everyday meals',
+      zhMethod: '現場問法：油脂夠嗎？今天適合鹽烤還是乾煎？',
+      enMethod: 'Ask: is it fatty enough today, and should I grill or pan-fry it?',
+      zhCook: '料理提示：魚身擦乾、鍋熱再下，乾煎到表皮酥就很香。',
+      enCook: 'Cooking tip: pat dry, heat the pan first, and sear until the skin is crisp.',
+      zhNext: '下一步：直接找買點，買完回報哪句介紹最有用。',
+      enNext: 'Next: find a buying spot and report which recommendation helped most.',
       src: '../assets/models/pacific-mackerel.gltf',
       tone: 'mackerel',
-      orbit: '70deg 82deg 4.3m'
+      orbit: '70deg 82deg 4.3m',
+      exposure: '1',
+      shadow: '1.25'
     },
     mahiMahi: {
       zhTitle: '鬼頭刀',
       enTitle: 'Mahi-mahi',
       zhBody: '亮黃綠色、肉厚有存在感，適合香煎、烤魚與年輕人愛的餐盒料理。',
       enBody: 'A bright yellow-green fish with firm meat, good for searing, grilling, and bowls.',
+      zhStatus: '綠燈：肉厚好料理，適合餐盒與聚餐',
+      enStatus: 'Green: firm and easy for bowls or shared meals',
+      zhMethod: '現場問法：這批適合切片嗎？香煎會不會太乾？',
+      enMethod: 'Ask: is this batch good for fillets, and how do I keep it from drying out?',
+      zhCook: '料理提示：中火香煎，起鍋前加檸檬或胡椒，味道很 clean。',
+      enCook: 'Cooking tip: pan-sear on medium heat; finish with lemon or pepper for a clean taste.',
+      zhNext: '下一步：看食譜再買，回饋大家最想煮哪一種做法。',
+      enNext: 'Next: check the recipe before buying and share which cooking style you want.',
       src: '../assets/models/mahi-mahi.gltf',
       tone: 'mahi',
-      orbit: '64deg 78deg 4.5m'
+      orbit: '64deg 78deg 4.5m',
+      exposure: '1.12',
+      shadow: '1.1'
     }
   };
 
@@ -72,10 +102,11 @@
     stage.innerHTML = [
       '<video class="ar-camera" playsinline muted></video>',
       '<div class="ar-ocean-glow" aria-hidden="true"></div>',
-      '<model-viewer class="ar-model" camera-controls touch-action="pan-y" auto-rotate rotation-per-second="18deg" shadow-intensity="1" exposure="1" ar ar-modes="webxr scene-viewer quick-look" interaction-prompt="none">',
+      '<model-viewer class="ar-model" camera-controls touch-action="pan-y" auto-rotate rotation-per-second="18deg" shadow-intensity="1" exposure="1" ar ar-modes="webxr scene-viewer quick-look" interaction-prompt="none" loading="eager" reveal="auto">',
       '  <button type="button" class="ar-action-btn ar-real-ar-btn" slot="ar-button" data-real-ar></button>',
       '</model-viewer>',
       '<div class="ar-model-fallback" data-model-fallback>3D 魚種載入中</div>',
+      '<div class="ar-species-panel" aria-live="polite" data-species-panel></div>',
       '<div class="ar-toolbar">',
       '  <div class="ar-toolbar-left">',
       '    <div class="ar-title-pill" data-ar-title></div>',
@@ -154,8 +185,10 @@
     });
 
     state.model.src = fish.src;
-    state.model.alt = pick(fish.zhTitle + ' 3D 魚種模型', fish.enTitle + ' 3D fish model');
+    state.model.alt = pick(fish.zhTitle + ' 3D 魚種模型：用來認魚、理解料理方向與現場問法', fish.enTitle + ' 3D fish model for recognition, cooking direction, and market questions');
     state.model.setAttribute('camera-orbit', fish.orbit);
+    state.model.setAttribute('exposure', fish.exposure || '1');
+    state.model.setAttribute('shadow-intensity', fish.shadow || '1');
     updateLanguage();
   }
 
@@ -181,9 +214,20 @@
       btn.setAttribute('title', pick('選擇' + fishOption.zhTitle, 'Select ' + fishOption.enTitle));
     });
 
+    var panel = state.stage.querySelector('[data-species-panel]');
+    if (panel) {
+      panel.innerHTML = [
+        '<strong>' + esc(pick('認魚小卡', 'Fish ID card')) + '</strong>',
+        '<span>' + esc(pick(fish.zhStatus, fish.enStatus)) + '</span>',
+        '<span>' + esc(pick(fish.zhMethod, fish.enMethod)) + '</span>',
+        '<span>' + esc(pick(fish.zhCook, fish.enCook)) + '</span>',
+        '<em>' + esc(pick(fish.zhNext, fish.enNext)) + '</em>'
+      ].join('');
+    }
+
     state.stage.querySelector('[data-ar-hint]').textContent = state.arOn
-      ? pick('現在是「' + fish.zhTitle + '」。3D 魚種會疊在現場畫面上，也可按「放到現場」體驗。', 'Showing "' + fish.enTitle + '". The 3D fish is overlaid on the live view. Tap "View in AR" to try spatial viewing.')
-      : pick('選一種真實魚種，看 3D 模型、口感特色與料理方向；打開相機後可把魚種疊在現場畫面上。', 'Choose a real fish species to view its 3D model and cooking direction. Turn on the camera to overlay it on the live view.');
+      ? pick('現在是「' + fish.zhTitle + '」。看魚身特徵、燈號、問法與料理提示，再決定要不要買。', 'Showing "' + fish.enTitle + '". Check appearance, guidance, questions, and cooking tip before buying.')
+      : pick('選一種真實魚種，看 3D 模型與認魚小卡；打開相機後可疊在市場或校園現場。', 'Choose a real fish species to view the 3D model and ID card. Turn on camera to overlay it in the market or campus.');
   }
 
   async function toggleAr() {
@@ -203,7 +247,7 @@
       state.arOn = true;
       state.stage.classList.add('is-ar-on');
       updateLanguage();
-      showToast(pick('相機已開，3D 魚種會疊在現場畫面上。', 'Camera is on. The 3D fish is overlaid on the live view.'));
+      showToast(pick('相機已開，請對準魚攤、餐桌或活動攤位，邊看模型邊看認魚小卡。', 'Camera is on. Point at the stall, table, or booth and use the fish ID card.'));
     } catch (err) {
       state.arOn = false;
       state.stage.classList.remove('is-ar-on');
@@ -223,7 +267,7 @@
   }
 
   function screenshotHint() {
-    showToast(pick('要保存畫面，請用手機截圖；想把模型放進空間，請按「放到現場」。', 'Take a phone screenshot to save the view. To place the model in space, tap "View in AR".'));
+    showToast(pick('要保存畫面，請用手機截圖；買完記得填回饋小卡，收一句真實原因。', 'Take a phone screenshot to save the view. After buying, leave a quick feedback note.'));
   }
 
   function showToast(message) {
