@@ -1,0 +1,117 @@
+/* FishFull AR mobile fish-fit guard: keep the full fish and controls inside the phone viewport. */
+.page-ar-game {
+  --fishfull-phone-gutter: max(10px, env(safe-area-inset-left), env(safe-area-inset-right));
+}
+
+.page-ar-game .model-stage {
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  overflow: clip !important;
+}
+
+.page-ar-game .ar-stage {
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: 100%;
+}
+
+.page-ar-game .ar-model,
+.page-ar-game .ar-stage.is-ar-on .ar-model {
+  object-fit: contain !important;
+  object-position: center center !important;
+  max-inline-size: calc(100% - (var(--fishfull-phone-gutter) * 2)) !important;
+}
+
+.page-ar-game .ar-fallback-fish,
+.page-ar-game .ar-stage::before {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-inline-size: calc(100% - (var(--fishfull-phone-gutter) * 2)) !important;
+}
+
+.page-ar-game .ar-toolbar,
+.page-ar-game .ar-real-ar-btn,
+.page-ar-game .ar-species-panel,
+.page-ar-game .ar-fresh-strip,
+.page-ar-game .ar-hint-pill {
+  inline-size: auto;
+  max-inline-size: calc(100% - (var(--fishfull-phone-gutter) * 2)) !important;
+}
+
+@media (max-width: 768px) {
+  .page-ar-game .ar-focus-layout {
+    overflow: clip !important;
+  }
+
+  .page-ar-game .model-stage {
+    min-block-size: min(760px, calc(100svh - 16px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(116px, 20svh, 144px);
+    --ar-safe-bottom: clamp(124px, 21svh, 152px);
+    min-block-size: min(720px, calc(100svh - 24px)) !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    block-size: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+    min-block-size: clamp(230px, 42svh, 330px) !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    inline-size: min(76%, 340px) !important;
+  }
+
+  .page-ar-game .ar-toolbar {
+    left: var(--fishfull-phone-gutter) !important;
+    right: var(--fishfull-phone-gutter) !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .page-ar-game .ar-fish-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    inline-size: 100%;
+  }
+
+  .page-ar-game .ar-fish-btn {
+    min-inline-size: 0 !important;
+    max-inline-size: 100% !important;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 390px) {
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(122px, 22svh, 148px);
+    --ar-safe-bottom: clamp(132px, 23svh, 156px);
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    min-block-size: clamp(210px, 39svh, 292px) !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .page-ar-game .model-stage {
+    min-block-size: 520px !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 96px;
+    --ar-safe-bottom: 108px;
+    min-block-size: 500px !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    block-size: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+    min-block-size: 220px !important;
+    inline-size: min(82%, 560px) !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    inline-size: min(64%, 360px) !important;
+  }
+}
