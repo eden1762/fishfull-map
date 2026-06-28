@@ -81,6 +81,35 @@
   }
 }
 
+@media (max-width: 430px) {
+  .page-ar-game {
+    --fishfull-phone-gutter: max(12px, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+
+  .page-ar-game .model-stage {
+    min-block-size: min(700px, calc(100svh - 12px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(120px, 21svh, 148px);
+    --ar-safe-bottom: clamp(132px, 24svh, 164px);
+    min-block-size: min(680px, calc(100svh - 18px)) !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inline-size: min(82%, 330px) !important;
+    max-block-size: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+  }
+
+  .page-ar-game .ar-real-ar-btn,
+  .page-ar-game .ar-hint-pill,
+  .page-ar-game .ar-fresh-strip {
+    left: var(--fishfull-phone-gutter) !important;
+    right: var(--fishfull-phone-gutter) !important;
+  }
+}
+
 @media (max-width: 390px) {
   .page-ar-game .ar-stage {
     --ar-safe-top: clamp(122px, 22svh, 148px);
@@ -90,6 +119,32 @@
   .page-ar-game .ar-model,
   .page-ar-game .ar-stage.is-ar-on .ar-model {
     min-block-size: clamp(210px, 39svh, 292px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .page-ar-game .model-stage {
+    min-block-size: min(640px, calc(100svh - 8px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(116px, 24svh, 142px);
+    --ar-safe-bottom: clamp(138px, 27svh, 168px);
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inline-size: min(78%, 286px) !important;
+    min-block-size: clamp(190px, 36svh, 250px) !important;
+  }
+
+  .page-ar-game .ar-fish-options {
+    grid-template-columns: 1fr !important;
+  }
+
+  .page-ar-game .ar-fish-btn {
+    min-block-size: 44px !important;
+    text-align: center;
   }
 }
 
@@ -113,5 +168,27 @@
 
   .page-ar-game .ar-fallback-fish {
     inline-size: min(64%, 360px) !important;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .page-ar-game .model-stage {
+    min-block-size: 460px !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 86px;
+    --ar-safe-bottom: 96px;
+    min-block-size: 440px !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inline-size: min(70%, 430px) !important;
+    min-block-size: 190px !important;
+  }
+
+  .page-ar-game .ar-toolbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
