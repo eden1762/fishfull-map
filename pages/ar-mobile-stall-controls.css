@@ -1,0 +1,138 @@
+/* FishFull AR mobile controls: keep the full fish visible and every tap target inside the phone screen. */
+.page-ar-game {
+  overflow-x: clip;
+}
+
+.page-ar-game .model-stage,
+.page-ar-game .ar-stage {
+  max-width: 100%;
+}
+
+.page-ar-game .ar-stage {
+  isolation: isolate;
+  touch-action: manipulation;
+}
+
+.page-ar-game .ar-toolbar,
+.page-ar-game .ar-fresh-strip,
+.page-ar-game .ar-hint-pill,
+.page-ar-game .ar-real-ar-btn,
+.page-ar-game .ar-species-panel {
+  max-width: calc(100% - 20px) !important;
+  box-sizing: border-box;
+}
+
+.page-ar-game .ar-toolbar {
+  left: max(10px, env(safe-area-inset-left)) !important;
+  right: max(10px, env(safe-area-inset-right)) !important;
+}
+
+.page-ar-game .ar-fish-options,
+.page-ar-game .ar-toolbar,
+.page-ar-game .ar-species-panel {
+  min-width: 0;
+}
+
+.page-ar-game .ar-fish-btn,
+.page-ar-game .ar-real-ar-btn,
+.page-ar-game .ar-toolbar button {
+  white-space: normal !important;
+  line-height: 1.15 !important;
+}
+
+.page-ar-game .ar-model,
+.page-ar-game .ar-stage.is-ar-on .ar-model {
+  object-fit: contain !important;
+  pointer-events: auto;
+}
+
+.page-ar-game .ar-fallback-fish,
+.page-ar-game .ar-stage::before {
+  max-height: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom) - 12px) !important;
+}
+
+@media (max-width: 768px) {
+  .page-ar-game main,
+  .page-ar-game .content-section,
+  .page-ar-game .ar-focus-layout {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .page-ar-game .model-stage {
+    min-height: min(760px, calc(100svh - 18px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 128px;
+    --ar-safe-bottom: 132px;
+    min-height: min(720px, calc(100svh - 28px)) !important;
+    margin-bottom: 328px !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    width: min(100%, 560px) !important;
+    height: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+    min-height: 260px !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    width: min(78%, 340px) !important;
+  }
+
+  .page-ar-game .ar-toolbar {
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    grid-template-columns: minmax(0, 1fr) 44px !important;
+    gap: 8px !important;
+  }
+
+  .page-ar-game .ar-fish-options {
+    gap: 6px !important;
+  }
+
+  .page-ar-game .ar-fish-btn {
+    min-width: 0 !important;
+    padding-inline: 6px !important;
+    font-size: 12px !important;
+  }
+
+  .page-ar-game .ar-real-ar-btn {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    bottom: calc(var(--ar-safe-bottom) - 54px) !important;
+    width: min(260px, calc(100% - 28px)) !important;
+  }
+
+  .page-ar-game .ar-species-panel {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(420px, calc(100% - 24px)) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 136px;
+    --ar-safe-bottom: 138px;
+    min-height: min(700px, calc(100svh - 26px)) !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    width: min(76%, 310px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 142px;
+    --ar-safe-bottom: 144px;
+  }
+
+  .page-ar-game .ar-fish-btn {
+    font-size: 11px !important;
+    min-height: 36px !important;
+  }
+}
