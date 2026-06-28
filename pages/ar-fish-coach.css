@@ -117,6 +117,59 @@
   background: rgba(255,255,255,.9);
 }
 
+.page-ar-game .ar-coach-bodycheck {
+  padding: 14px;
+  border: 1px solid rgba(13,143,102,.18);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(232,248,244,.92), rgba(255,255,255,.94)),
+    radial-gradient(circle at 10% 0%, rgba(13,143,102,.16), transparent 36%);
+}
+
+.page-ar-game .ar-coach-bodycheck strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ocean-deep);
+  font-size: 17px;
+}
+
+.page-ar-game .ar-coach-bodycheck ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-ar-game .ar-coach-bodycheck li {
+  min-width: 0;
+  padding: 10px 10px 10px 32px;
+  border-radius: 16px;
+  color: var(--ink);
+  font-weight: 850;
+  line-height: 1.35;
+  background: rgba(255,255,255,.9);
+  position: relative;
+  overflow-wrap: anywhere;
+}
+
+.page-ar-game .ar-coach-bodycheck li::before {
+  content: '✓';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 950;
+  background: #0d8f66;
+}
+
 .page-ar-game .ar-coach-mission {
   display: grid;
   gap: 12px;
@@ -219,6 +272,12 @@
   }
 }
 
+@media (max-width: 640px) {
+  .page-ar-game .ar-coach-bodycheck ul {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 560px) {
   .page-ar-game .ar-coach-mission-steps {
     grid-template-columns: 1fr;
@@ -247,8 +306,13 @@
     border-radius: 12px;
   }
 
+  .page-ar-game .ar-coach-bodycheck,
   .page-ar-game .ar-coach-mission {
     padding: 12px;
     border-radius: 20px;
+  }
+
+  .page-ar-game .ar-coach-bodycheck li {
+    padding-block: 11px;
   }
 }
