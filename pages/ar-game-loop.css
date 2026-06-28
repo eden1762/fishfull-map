@@ -1,0 +1,110 @@
+/* Main AR game route: explains the loop without covering the fish viewport. */
+.page-ar-game .ar-game-loop {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 173, 50, .16), transparent 24%),
+    radial-gradient(circle at 88% 8%, rgba(31, 183, 216, .16), transparent 24%),
+    rgba(255,255,255,.82);
+}
+
+.page-ar-game .ar-game-loop::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 52%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(21,132,90,.36), rgba(181,116,0,.34), rgba(182,69,69,.32));
+  pointer-events: none;
+}
+
+.page-ar-game .ar-loop-track {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.page-ar-game .ar-loop-step {
+  min-width: 0;
+  border: 1px solid rgba(8,93,117,.12);
+  border-radius: 24px;
+  padding: 18px;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 18px 42px rgba(7,54,77,.09);
+}
+
+.page-ar-game .ar-loop-step span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 42px;
+  height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ocean-deep), var(--ocean));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: .08em;
+}
+
+.page-ar-game .ar-loop-step h3 {
+  margin: 14px 0 8px;
+  color: var(--ocean-deep);
+  font-size: clamp(18px, 2vw, 23px);
+}
+
+.page-ar-game .ar-loop-step p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 1020px) {
+  .page-ar-game .ar-loop-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-ar-game .ar-game-loop {
+    padding: 20px !important;
+    border-radius: 28px;
+  }
+
+  .page-ar-game .ar-game-loop::before {
+    top: 108px;
+    bottom: 28px;
+    left: 38px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(21,132,90,.36), rgba(181,116,0,.34), rgba(182,69,69,.32));
+  }
+
+  .page-ar-game .ar-loop-track {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .page-ar-game .ar-loop-step {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: start;
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .page-ar-game .ar-loop-step span {
+    grid-row: 1 / span 2;
+    min-width: 38px;
+    height: 32px;
+  }
+
+  .page-ar-game .ar-loop-step h3 {
+    margin: 0 0 6px;
+  }
+}
