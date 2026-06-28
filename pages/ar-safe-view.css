@@ -1,0 +1,123 @@
+/* AR 主入口安全視窗：提醒使用者把完整魚身留在中央，不遮擋模型。 */
+.ar-safe-view {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 144px;
+  bottom: 122px;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 28px;
+  opacity: 0.92;
+}
+
+.ar-safe-view::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(8, 89, 107, 0.16), 0 18px 54px rgba(10, 77, 96, 0.12);
+}
+
+.ar-safe-view__corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-color: rgba(255, 255, 255, 0.78);
+  border-style: solid;
+}
+
+.ar-safe-view__corner:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-width: 3px 0 0 3px;
+  border-top-left-radius: 18px;
+}
+
+.ar-safe-view__corner:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-width: 3px 3px 0 0;
+  border-top-right-radius: 18px;
+}
+
+.ar-safe-view__corner:nth-child(3) {
+  right: 0;
+  bottom: 0;
+  border-width: 0 3px 3px 0;
+  border-bottom-right-radius: 18px;
+}
+
+.ar-safe-view__corner:nth-child(4) {
+  left: 0;
+  bottom: 0;
+  border-width: 0 0 3px 3px;
+  border-bottom-left-radius: 18px;
+}
+
+.ar-safe-view__label {
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: min(86%, 320px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #0f5568;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 10px 28px rgba(7, 75, 92, 0.14);
+}
+
+.ar-safe-view__line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34%;
+  max-width: 150px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.58), transparent);
+}
+
+@media (max-width: 768px) {
+  .ar-safe-view {
+    left: 8%;
+    right: 8%;
+    top: calc(var(--ar-safe-top, 134px) + 14px);
+    bottom: calc(var(--ar-safe-bottom, 112px) + 12px);
+    border-radius: 24px;
+  }
+
+  .ar-safe-view__label {
+    top: -12px;
+    max-width: 74vw;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .ar-safe-view__corner {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ar-safe-view {
+    left: 7%;
+    right: 7%;
+  }
+
+  .ar-safe-view__label {
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+}
