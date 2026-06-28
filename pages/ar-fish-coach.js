@@ -10,6 +10,7 @@
       body: '在魚攤前先選今天的情境，FishFull 會同步切換上方 3D 魚，再把魚種、燈號、問法和零失敗料理接起來。手機上這一段固定放在魚模型下方，不會蓋住完整魚身。',
       pickLabel: '今天比較像哪一種？',
       syncNote: '已同步上方 3D 魚，先看完整魚身再開口問。',
+      qrBadge: 'QR',
       bodyCheckTitle: '完整魚身先看這 3 點',
       stallBadge: '攤',
       copyAskLabel: '一鍵帶去問',
@@ -28,6 +29,7 @@
           fish: '赤鯮',
           light: '綠燈',
           lightText: '魚眼清亮、魚鰓鮮紅、魚身有光澤就可以安心往下一步。',
+          qrLine: '掃攤位 QR 後先開 AR 看完整魚身，再照著燈號與問句確認，買回家直接接零失敗做法。',
           bodyChecks: ['眼睛清亮不霧', '鰓色偏紅不灰', '魚身挺、鱗片有光'],
           stallLine: '可以請魚販直接補一句：這條怎麼料理最穩、幾人份最剛好。',
           ask: '這條今天適合清蒸還是乾煎？兩個人吃大概挑多大？',
@@ -43,6 +45,7 @@
           fish: '花腹鯖',
           light: '黃燈',
           lightText: '油脂香很適合日常餐桌，但要多問保存時間、來源與今天建議做法。',
+          qrLine: '掃 QR 後用 AR 先看魚身線條和肚腹狀態，再把保存時間問清楚，晚餐比較不會翻車。',
           bodyChecks: ['背部花紋清楚', '肚腹不軟塌', '聞起來是海味不是腥味'],
           stallLine: '可以請魚販幫你確認保存狀態，再推薦今天最不容易失手的煎、烤做法。',
           ask: '這批是今天進的嗎？回家鹽烤或乾煎哪個更穩？',
@@ -58,6 +61,7 @@
           fish: '先暫停確認',
           light: '紅燈',
           lightText: '來源、保存、魚身狀態說不清楚時，先問清楚再決定，別讓晚餐變踩雷現場。',
+          qrLine: '掃 QR 後如果燈號、來源或保存說明對不起來，就先停一下；請魚販補清楚，再決定要不要買。',
           bodyChecks: ['眼睛混濁或凹陷', '鰓色偏灰或有異味', '魚身軟塌、表面黏膩'],
           stallLine: '可以請魚販補上來源、進貨時間與建議料理；講得清楚再買，講不清楚就換一尾。',
           ask: '這條來源、進貨時間和保存方式可以再跟我說清楚嗎？如果不適合今天吃，有沒有更穩的選擇？',
@@ -73,6 +77,7 @@
           fish: '鬼頭刀',
           light: '綠燈',
           lightText: '肉厚、口感明顯，適合做香煎、烤魚、餐盒或多人分享。',
+          qrLine: '掃 QR 後先用 AR 看厚度和魚身比例，再請魚販挑好煎、好分食的部位，派對桌面直接有料。',
           bodyChecks: ['魚皮光澤乾淨', '肉面有彈性', '厚切部位不出水'],
           stallLine: '可以請魚販幫你挑厚度平均的部位，回家比較好煎，也更有桌面氣勢。',
           ask: '這塊適合切厚煎嗎？今天有沒有更適合多人吃的部位？',
@@ -88,6 +93,7 @@
       body: 'Pick your market moment and FishFull switches the 3D fish above, then connects fish choice, color cue, fishmonger question, and an easy cooking next step. On mobile, this stays below the fish model, so it never covers the full body.',
       pickLabel: 'What are you buying for today?',
       syncNote: 'The 3D fish above is synced. View the full body first, then ask at the counter.',
+      qrBadge: 'QR',
       bodyCheckTitle: 'Check these 3 full-body cues first',
       stallBadge: 'Shop',
       copyAskLabel: 'One-tap question',
@@ -106,6 +112,7 @@
           fish: 'Crimson sea bream',
           light: 'Green',
           lightText: 'Clear eyes, red gills, and glossy skin? You are good to ask the next step.',
+          qrLine: 'Scan the stall QR, open the AR whole-fish view, then use the color cue and question before jumping into a foolproof recipe.',
           bodyChecks: ['Clear, bright eyes', 'Red gills, not gray', 'Firm body with glossy scales'],
           stallLine: 'Ask the fishmonger for the safest cooking style and the right size for your table.',
           ask: 'Is this better steamed or pan-fried today, and what size works for two?',
@@ -121,6 +128,7 @@
           fish: 'Pacific mackerel',
           light: 'Yellow',
           lightText: 'Rich and great for daily meals, but ask about holding time, origin, and the best cooking style today.',
+          qrLine: 'Scan the QR, check the AR body shape and belly, then ask about holding time so tonight’s dinner stays low-risk.',
           bodyChecks: ['Sharp back pattern', 'Belly is not mushy', 'Clean sea smell, not harsh'],
           stallLine: 'Ask the fishmonger to confirm handling and point you to the least risky grill or pan-fry move.',
           ask: 'Did this arrive today? Would grilling or pan-frying be the safer move?',
@@ -136,6 +144,7 @@
           fish: 'Pause and confirm',
           light: 'Red',
           lightText: 'When origin, handling, or body cues are unclear, ask before you buy. No dinner-table jump scares.',
+          qrLine: 'After scanning the QR, if the cue, origin, or handling story does not line up, pause and ask before buying.',
           bodyChecks: ['Cloudy or sunken eyes', 'Gray gills or off smell', 'Soft body or sticky surface'],
           stallLine: 'Ask for origin, arrival time, and handling. If the answer is fuzzy, pick a cleaner, clearer option.',
           ask: 'Can you tell me the origin, arrival time, and handling for this fish? If it is not ideal for tonight, what is the safer pick?',
@@ -151,6 +160,7 @@
           fish: 'Mahi-mahi',
           light: 'Green',
           lightText: 'Firm, meaty, and easy to share. Great for searing, roasting, bowls, and group meals.',
+          qrLine: 'Scan the QR, use AR to check thickness and body proportion, then ask for a sharing-friendly cut that brings main-character energy.',
           bodyChecks: ['Clean, glossy skin', 'Springy flesh surface', 'Thick cuts are not watery'],
           stallLine: 'Ask for an even, thick piece so it sears cleanly and lands with real table presence.',
           ask: 'Is this good for thick-cut searing, and do you have a better piece for sharing?',
@@ -203,6 +213,15 @@
     ].join('');
   }
 
+  function qrCard(option, text) {
+    return [
+      '<div class="ar-coach-detail ar-coach-qr-line">',
+        '<strong>' + esc(text.qrBadge) + '</strong>',
+        '<p>' + esc(option.qrLine) + '</p>',
+      '</div>'
+    ].join('');
+  }
+
   function askCard(option, text) {
     return [
       '<div class="ar-coach-detail ar-coach-ask-card">',
@@ -244,6 +263,7 @@
           '<strong>🐟</strong>',
           '<p>' + esc(text.syncNote) + '</p>',
         '</div>',
+        qrCard(option, text),
         bodyCheck(option, text),
         '<div class="ar-coach-detail ar-coach-stall-line">',
           '<strong>' + esc(text.stallBadge) + '</strong>',
