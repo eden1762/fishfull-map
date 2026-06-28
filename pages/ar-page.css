@@ -1,0 +1,373 @@
+/* FishFull AR page: keep the whole fish visible first, then put tips below. */
+.page-ar-game .ar-game-hero {
+  min-height: 0;
+}
+
+.page-ar-game .hero-text {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-ar-game .hero-text::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  bottom: -80px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(31, 183, 216, .14), transparent 68%);
+  pointer-events: none;
+}
+
+.ar-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,.84);
+  color: var(--ocean-deep);
+  font-weight: 950;
+  box-shadow: 0 12px 28px rgba(7,54,77,.1);
+}
+
+.hero-link-primary {
+  border-color: rgba(255,255,255,.92);
+  background: linear-gradient(90deg, var(--ocean-deep), var(--ocean));
+  color: #fff;
+}
+
+.hero-link:hover,
+.hero-link:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.page-ar-game .ar-phone-card {
+  min-height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 22% 22%, rgba(255,255,255,.9), transparent 18%),
+    radial-gradient(circle at 82% 24%, rgba(255,173,50,.32), transparent 18%),
+    linear-gradient(180deg, #a9e8f7 0%, #f5fbff 48%, #ffe7ab 100%);
+}
+
+.phone-fish {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(74%, 360px);
+  aspect-ratio: 2.65 / 1;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  filter: drop-shadow(0 28px 28px rgba(7,54,77,.22));
+}
+
+.phone-fish-body,
+.phone-fish-tail,
+.phone-fish-eye {
+  position: absolute;
+  display: block;
+}
+
+.phone-fish-body {
+  inset: 18% 12% 18% 14%;
+  border-radius: 62% 48% 48% 62% / 52% 48% 50% 48%;
+  background:
+    radial-gradient(circle at 78% 35%, #fff 0 4%, transparent 5%),
+    radial-gradient(circle at 40% 58%, rgba(255,255,255,.42), transparent 24%),
+    linear-gradient(110deg, #fff1ec 0 12%, #df4b57 42%, #9f2b40 72%, #123047 100%);
+  box-shadow: inset 0 15px 24px rgba(255,255,255,.3), 0 24px 48px rgba(4,35,55,.18);
+}
+
+.phone-fish-tail {
+  left: 0;
+  top: 24%;
+  width: 28%;
+  height: 52%;
+  clip-path: polygon(100% 50%,0 0,28% 50%,0 100%);
+  background: linear-gradient(120deg, #df4b57, #123047);
+}
+
+.phone-fish-eye {
+  right: 22%;
+  top: 39%;
+  width: 7%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle at 62% 45%, #123047 0 30%, #fff 32% 100%);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.32);
+}
+
+.phone-step-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.phone-step-row span {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.72);
+  color: var(--ocean-deep);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.page-ar-game .ar-focus-layout {
+  grid-template-columns: minmax(280px, .82fr) minmax(480px, 1.18fr);
+  align-items: stretch;
+  gap: 20px;
+  overflow: visible;
+}
+
+.page-ar-game .ar-side-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.page-ar-game .ar-side-copy .section-heading {
+  margin-bottom: 16px;
+}
+
+.page-ar-game .label-grid {
+  grid-template-columns: 1fr;
+}
+
+.page-ar-game .label-card {
+  padding: 18px;
+}
+
+.page-ar-game .model-stage {
+  min-height: 720px !important;
+  padding: 10px !important;
+  overflow: visible !important;
+  background: linear-gradient(160deg, #dff8ff 0%, #f4fcff 52%, #fff1d7 100%) !important;
+}
+
+.page-ar-game .ar-stage {
+  --ar-safe-top: 118px;
+  --ar-safe-bottom: 112px;
+  min-height: 700px !important;
+  margin-bottom: 238px !important;
+  overflow: hidden !important;
+  contain: layout paint;
+}
+
+.page-ar-game .ar-model,
+.page-ar-game .ar-stage.is-ar-on .ar-model {
+  left: 50% !important;
+  right: auto !important;
+  top: var(--ar-safe-top) !important;
+  bottom: auto !important;
+  width: min(96%, 720px) !important;
+  max-width: none !important;
+  height: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+  min-height: 300px !important;
+  transform: translateX(-50%) !important;
+  animation: none !important;
+  z-index: 4 !important;
+}
+
+.page-ar-game .ar-fallback-fish {
+  top: calc(var(--ar-safe-top) + 34%) !important;
+  width: min(82%, 520px) !important;
+  max-width: calc(100% - 28px) !important;
+  z-index: 3 !important;
+}
+
+.page-ar-game .ar-ocean-glow {
+  inset: 22% 8% 28% !important;
+}
+
+.page-ar-game .ar-fresh-strip {
+  top: 72px !important;
+  z-index: 7 !important;
+}
+
+.page-ar-game .ar-toolbar {
+  z-index: 10 !important;
+}
+
+.page-ar-game .ar-hint-pill {
+  z-index: 8 !important;
+}
+
+.page-ar-game .ar-model-fallback {
+  top: calc(var(--ar-safe-top) + 45%) !important;
+  z-index: 5 !important;
+}
+
+.page-ar-game .ar-real-ar-btn {
+  z-index: 11 !important;
+}
+
+.page-ar-game .ar-species-panel {
+  z-index: 12 !important;
+}
+
+.page-ar-game .ar-quick-guide .info-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1020px) {
+  .page-ar-game .ar-focus-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-ar-game .model-stage {
+    order: -1;
+  }
+
+  .page-ar-game .ar-quick-guide .info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-ar-game .page-shell {
+    width: min(100% - 18px, 1180px);
+  }
+
+  .page-ar-game .ar-game-hero {
+    gap: 14px;
+  }
+
+  .page-ar-game .hero-text {
+    padding: 24px 20px;
+  }
+
+  .page-ar-game .ar-phone-card {
+    min-height: 310px;
+    padding: 24px;
+  }
+
+  .phone-fish {
+    top: 44%;
+    width: min(86%, 320px);
+  }
+
+  .ar-hero-actions {
+    gap: 8px;
+  }
+
+  .hero-link {
+    flex: 1 1 150px;
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+
+  .page-ar-game .ar-focus-layout {
+    padding: 12px !important;
+    border-radius: 28px;
+    gap: 14px;
+  }
+
+  .page-ar-game .model-stage {
+    min-height: min(740px, calc(100svh - 24px)) !important;
+    padding: 6px !important;
+    border-radius: 24px !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 132px;
+    --ar-safe-bottom: 118px;
+    min-height: min(704px, calc(100svh - 42px)) !important;
+    margin-bottom: 316px !important;
+    border-radius: 22px !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    top: var(--ar-safe-top) !important;
+    width: 100% !important;
+    height: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
+    min-height: 294px !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    top: calc(var(--ar-safe-top) + 31%) !important;
+    width: min(82%, 360px) !important;
+  }
+
+  .page-ar-game .ar-stage::before {
+    top: calc(var(--ar-safe-top) + 32%) !important;
+    width: min(86%, 360px) !important;
+  }
+
+  .page-ar-game .ar-toolbar {
+    grid-template-columns: minmax(0, 1fr) 48px !important;
+  }
+
+  .page-ar-game .ar-fish-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .page-ar-game .ar-fish-btn {
+    min-height: 38px !important;
+  }
+
+  .page-ar-game .ar-real-ar-btn {
+    bottom: calc(var(--ar-safe-bottom) - 48px) !important;
+  }
+
+  .page-ar-game .ar-side-copy {
+    margin-top: 6px;
+  }
+
+  .page-ar-game .ar-quick-guide .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 140px;
+    --ar-safe-bottom: 124px;
+    min-height: min(680px, calc(100svh - 34px)) !important;
+    margin-bottom: 326px !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    min-height: 270px !important;
+  }
+
+  .page-ar-game .ar-fallback-fish {
+    top: calc(var(--ar-safe-top) + 29%) !important;
+    width: min(84%, 330px) !important;
+  }
+
+  .page-ar-game .ar-fresh-strip {
+    top: 76px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .page-ar-game .ar-stage {
+    --ar-safe-top: 146px;
+    --ar-safe-bottom: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-fish,
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-fallback-fish {
+    animation: none !important;
+  }
+}
