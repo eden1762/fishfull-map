@@ -8,6 +8,7 @@
       body: '在魚攤前先選今天的情境，FishFull 會同步切換上方 3D 魚，再把魚種、燈號、問法和零失敗料理接起來。手機上這一段固定放在魚模型下方，不會蓋住完整魚身。',
       pickLabel: '今天比較像哪一種？',
       syncNote: '已同步上方 3D 魚，先看完整魚身再開口問。',
+      bodyCheckTitle: '完整魚身先看這 3 點',
       missionTitle: '現場三步驟任務',
       missionHint: '點一下代表完成，買魚更有節奏。',
       missionDone: '已完成 {count}/3，下一步更清楚。',
@@ -21,6 +22,7 @@
           fish: '赤鯮',
           light: '綠燈',
           lightText: '魚眼清亮、魚鰓鮮紅、魚身有光澤就可以安心往下一步。',
+          bodyChecks: ['眼睛清亮不霧', '鰓色偏紅不灰', '魚身挺、鱗片有光'],
           ask: '這條今天適合清蒸還是乾煎？兩個人吃大概挑多大？',
           cook: '建議先走清蒸或乾煎，調味簡單，魚肉甜味比較不會被蓋掉。',
           cta: '接零失敗食譜',
@@ -33,6 +35,7 @@
           fish: '花腹鯖',
           light: '黃燈',
           lightText: '油脂香很適合日常餐桌，但要多問保存時間、來源與今天建議做法。',
+          bodyChecks: ['背部花紋清楚', '肚腹不軟塌', '聞起來是海味不是腥味'],
           ask: '這批是今天進的嗎？回家鹽烤或乾煎哪個更穩？',
           cook: '建議鹽烤、乾煎或氣炸，先把表面水分擦乾，香氣會更漂亮。',
           cta: '看主推魚資訊',
@@ -45,6 +48,7 @@
           fish: '鬼頭刀',
           light: '綠燈',
           lightText: '肉厚、口感明顯，適合做香煎、烤魚、餐盒或多人分享。',
+          bodyChecks: ['魚皮光澤乾淨', '肉面有彈性', '厚切部位不出水'],
           ask: '這塊適合切厚煎嗎？今天有沒有更適合多人吃的部位？',
           cook: '建議香煎或烤魚，搭檸檬、胡椒、橄欖油就很有餐廳感。',
           cta: '找友善通路',
@@ -58,6 +62,7 @@
       body: 'Pick your market moment and FishFull switches the 3D fish above, then connects fish choice, color cue, fishmonger question, and an easy cooking next step. On mobile, this stays below the fish model, so it never covers the full body.',
       pickLabel: 'What are you buying for today?',
       syncNote: 'The 3D fish above is synced. View the full body first, then ask at the counter.',
+      bodyCheckTitle: 'Check these 3 full-body cues first',
       missionTitle: 'Three-step market mission',
       missionHint: 'Tap each step when done, so buying feels easier.',
       missionDone: '{count}/3 done. Your next move is clearer.',
@@ -71,6 +76,7 @@
           fish: 'Crimson sea bream',
           light: 'Green',
           lightText: 'Clear eyes, red gills, and glossy skin? You are good to ask the next step.',
+          bodyChecks: ['Clear, bright eyes', 'Red gills, not gray', 'Firm body with glossy scales'],
           ask: 'Is this better steamed or pan-fried today, and what size works for two?',
           cook: 'Start with steaming or pan-frying. Keep seasoning simple so the sweet, delicate meat can shine.',
           cta: 'Open easy recipes',
@@ -83,6 +89,7 @@
           fish: 'Pacific mackerel',
           light: 'Yellow',
           lightText: 'Rich and great for daily meals, but ask about holding time, origin, and the best cooking style today.',
+          bodyChecks: ['Sharp back pattern', 'Belly is not mushy', 'Clean sea smell, not harsh'],
           ask: 'Did this arrive today? Would grilling or pan-frying be the safer move?',
           cook: 'Try grilling, pan-frying, or air-frying. Pat it dry first for better aroma and texture.',
           cta: 'View featured fish',
@@ -95,6 +102,7 @@
           fish: 'Mahi-mahi',
           light: 'Green',
           lightText: 'Firm, meaty, and easy to share. Great for searing, roasting, bowls, and group meals.',
+          bodyChecks: ['Clean, glossy skin', 'Springy flesh surface', 'Thick cuts are not watery'],
           ask: 'Is this good for thick-cut searing, and do you have a better piece for sharing?',
           cook: 'Sear or roast it with lemon, pepper, and olive oil for a clean restaurant-style vibe.',
           cta: 'Find friendly channels',
@@ -112,6 +120,19 @@
     return window.SCMLanguage ? window.SCMLanguage.escapeHtml(value) : String(value).replace(/[&<>"']/g, function (char) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
     });
+  }
+
+  function bodyCheck(option, text) {
+    return [
+      '<div class="ar-coach-bodycheck">',
+        '<strong>' + esc(text.bodyCheckTitle) + '</strong>',
+        '<ul>',
+          option.bodyChecks.map(function (item) {
+            return '<li>' + esc(item) + '</li>';
+          }).join(''),
+        '</ul>',
+      '</div>'
+    ].join('');
   }
 
   function mission(option, text) {
@@ -143,6 +164,7 @@
           '<strong>🐟</strong>',
           '<p>' + esc(text.syncNote) + '</p>',
         '</div>',
+        bodyCheck(option, text),
         '<div class="ar-coach-detail">',
           '<strong>Q</strong>',
           '<p>' + esc(option.ask) + '</p>',
