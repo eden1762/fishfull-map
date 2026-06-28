@@ -8,6 +8,11 @@
       body: '在魚攤前先選今天的情境，FishFull 會同步切換上方 3D 魚，再把魚種、燈號、問法和零失敗料理接起來。手機上這一段固定放在魚模型下方，不會蓋住完整魚身。',
       pickLabel: '今天比較像哪一種？',
       syncNote: '已同步上方 3D 魚，先看完整魚身再開口問。',
+      missionTitle: '現場三步驟任務',
+      missionHint: '點一下代表完成，買魚更有節奏。',
+      missionDone: '已完成 {count}/3，下一步更清楚。',
+      missionComplete: '三步都完成，可以安心把魚帶回家。',
+      missionSteps: ['看完整魚身', '問來源與鮮度', '接料理做法'],
       options: [
         {
           key: 'safe',
@@ -53,6 +58,11 @@
       body: 'Pick your market moment and FishFull switches the 3D fish above, then connects fish choice, color cue, fishmonger question, and an easy cooking next step. On mobile, this stays below the fish model, so it never covers the full body.',
       pickLabel: 'What are you buying for today?',
       syncNote: 'The 3D fish above is synced. View the full body first, then ask at the counter.',
+      missionTitle: 'Three-step market mission',
+      missionHint: 'Tap each step when done, so buying feels easier.',
+      missionDone: '{count}/3 done. Your next move is clearer.',
+      missionComplete: 'All three steps are done. You are ready to bring the fish home.',
+      missionSteps: ['View the whole fish', 'Ask origin and freshness', 'Open the cooking move'],
       options: [
         {
           key: 'safe',
@@ -104,6 +114,23 @@
     });
   }
 
+  function mission(option, text) {
+    return [
+      '<div class="ar-coach-mission" data-mission="' + esc(option.key) + '">',
+        '<div>',
+          '<strong>' + esc(text.missionTitle) + '</strong>',
+          '<p>' + esc(text.missionHint) + '</p>',
+        '</div>',
+        '<div class="ar-coach-mission-steps">',
+          text.missionSteps.map(function (step, index) {
+            return '<button type="button" data-mission-step="' + index + '" aria-pressed="false"><span>' + (index + 1) + '</span>' + esc(step) + '</button>';
+          }).join(''),
+        '</div>',
+        '<p class="ar-coach-progress" aria-live="polite">' + esc(text.missionDone.replace('{count}', '0')) + '</p>',
+      '</div>'
+    ].join('');
+  }
+
   function card(option, text) {
     return [
       '<div class="ar-coach-result" data-result="' + esc(option.key) + '">',
@@ -124,6 +151,7 @@
           '<strong>🍳</strong>',
           '<p>' + esc(option.cook) + '</p>',
         '</div>',
+        mission(option, text),
         '<a href="' + esc(option.href) + '">' + esc(option.cta) + ' →</a>',
       '</div>'
     ].join('');
@@ -144,7 +172,26 @@
     attempt();
   }
 
-  function bind(section) {
+  function bindMission(section, text) {
+    Array.prototype.slice.call(section.querySelectorAll('.ar-coach-mission')).forEach(function (missionBlock) {
+      var progress = missionBlock.querySelector('.ar-coach-progress');
+      var steps = Array.prototype.slice.call(missionBlock.querySelectorAll('[data-mission-step]'));
+      function update() {
+        var count = steps.filter(function (step) { return step.getAttribute('aria-pressed') === 'true'; }).length;
+        progress.textContent = count === steps.length ? text.missionComplete : text.missionDone.replace('{count}', String(count));
+      }
+      steps.forEach(function (step) {
+        step.addEventListener('click', function () {
+          var isDone = step.getAttribute('aria-pressed') === 'true';
+          step.setAttribute('aria-pressed', isDone ? 'false' : 'true');
+          update();
+        });
+      });
+      update();
+    });
+  }
+
+  function bind(section, text) {
     var buttons = Array.prototype.slice.call(section.querySelectorAll('[data-coach-pick]'));
     var results = Array.prototype.slice.call(section.querySelectorAll('[data-result]'));
     buttons.forEach(function (button) {
@@ -155,6 +202,7 @@
         syncFishModel(button.getAttribute('data-coach-fish'));
       });
     });
+    bindMission(section, text);
   }
 
   function render() {
@@ -189,7 +237,7 @@
     ].join('');
 
     stage.insertAdjacentElement('afterend', section);
-    bind(section);
+    bind(section, text);
     syncFishModel(text.options[0] && text.options[0].fishKey);
   }
 
