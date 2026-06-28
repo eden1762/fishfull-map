@@ -32,6 +32,14 @@
         { title: '花腹鯖', body: '藍背銀腹、油脂香，適合鹽烤或乾煎，日常餐桌很可以。' },
         { title: '鬼頭刀', body: '肉厚有存在感，香煎、烤魚、餐盒料理都好搭。' }
       ],
+      missionEyebrow: '魚攤 30 秒任務',
+      missionTitle: '看完魚身，照著三張任務卡做就不慌',
+      missionBody: 'AR 遊戲不是只拿來拍照；它要幫消費者在魚攤前快速看懂、敢問、敢買，也讓魚販更好介紹好魚。',
+      missionCards: [
+        { tone: 'green', tag: '綠燈', title: '可以安心問下一步', body: '魚眼清亮、魚鰓鮮紅、魚身有光澤時，先問來源與今日建議料理。', ask: '這條今天最適合清蒸還是乾煎？', href: '/pages/recipes.html', action: '接零失敗食譜' },
+        { tone: 'yellow', tag: '黃燈', title: '先多問一句再決定', body: '看起來不錯但不確定來源、大小或保存時間時，請魚販補一句重點。', ask: '這條是今天進的嗎？兩個人吃會不會太多？', href: '/pages/fish.html', action: '看主推魚資訊' },
+        { tone: 'red', tag: '紅燈', title: '不懂就先別硬買', body: '魚身乾、氣味重、說不清來源，先換一條或改買更熟悉的魚。', ask: '有沒有更適合今天煮湯或香煎的選擇？', href: '/pages/map.html', action: '找友善通路' }
+      ],
       guideEyebrow: '現場怎麼用',
       guideTitle: '看完魚，下一步就能問、買、煮、回饋',
       guideBody: '給漁產消費者、魚販、漁業夥伴和年輕人使用：每個按鈕都接到真實行動，不用滑很久。',
@@ -73,6 +81,14 @@
         { title: 'Crimson Sea Bream', body: 'Red-toned, delicate, and great steamed or pan-fried. Check origin and catch method first.' },
         { title: 'Pacific Mackerel', body: 'Blue back, silver belly, rich oil, and easy to grill or pan-fry for everyday meals.' },
         { title: 'Mahi-mahi', body: 'Firm, bright, and great for searing, grilling, and seafood bowls.' }
+      ],
+      missionEyebrow: '30-second fish-stall mission',
+      missionTitle: 'After viewing the fish, follow three cards and buy with less guesswork',
+      missionBody: 'The AR game is not just a photo moment. It helps shoppers read the fish, ask better questions, and gives fishmongers an easier way to explain good seafood.',
+      missionCards: [
+        { tone: 'green', tag: 'Green', title: 'Good to ask the next step', body: 'Clear eyes, red gills, and glossy skin? Ask about origin and the best cooking style today.', ask: 'Is this better steamed or pan-fried today?', href: '/pages/recipes.html', action: 'Open easy recipes' },
+        { tone: 'yellow', tag: 'Yellow', title: 'Ask one more question first', body: 'Looks okay but origin, size, or holding time feels unclear? Ask the fishmonger for one practical detail.', ask: 'Did this arrive today, and is it enough for two?', href: '/pages/fish.html', action: 'View featured fish' },
+        { tone: 'red', tag: 'Red', title: 'Do not force the buy', body: 'Dry body, strong smell, or unclear origin? Switch fish or choose something more familiar.', ask: 'Do you have a better fish for soup or pan-searing?', href: '/pages/map.html', action: 'Find friendly channels' }
       ],
       guideEyebrow: 'How to use it on-site',
       guideTitle: 'After viewing the fish, ask, buy, cook, and leave feedback',
@@ -175,6 +191,31 @@
     ].join('');
   }
 
+  function mission(text) {
+    return [
+      '<section class="content-section ar-market-mission">',
+        '<div class="section-heading">',
+          '<p class="eyebrow">' + esc(text.missionEyebrow) + '</p>',
+          '<h2>' + esc(text.missionTitle) + '</h2>',
+          '<p>' + esc(text.missionBody) + '</p>',
+        '</div>',
+        '<div class="ar-mission-grid">',
+          list(text.missionCards, function (card) {
+            return [
+              '<article class="ar-mission-card mission-' + esc(card.tone) + '">',
+                '<span class="mission-tag">' + esc(card.tag) + '</span>',
+                '<h3>' + esc(card.title) + '</h3>',
+                '<p>' + esc(card.body) + '</p>',
+                '<div class="mission-ask"><span>Q</span><strong>' + esc(card.ask) + '</strong></div>',
+                '<a href="' + esc(card.href) + '">' + esc(card.action) + ' →</a>',
+              '</article>'
+            ].join('');
+          }),
+        '</div>',
+      '</section>'
+    ].join('');
+  }
+
   function guide(text) {
     return [
       '<section class="content-section ar-quick-guide">',
@@ -204,6 +245,7 @@
         '<main>',
           hero(text),
           arSection(text),
+          mission(text),
           guide(text),
         '</main>',
         '<footer class="site-footer"><strong>FishFull 漁有料</strong><span>' + esc(text.footer) + '</span></footer>',
