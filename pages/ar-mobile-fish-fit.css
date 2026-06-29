@@ -122,6 +122,39 @@
   }
 }
 
+@media (max-width: 380px) and (max-height: 700px) and (orientation: portrait) {
+  .page-ar-game .model-stage {
+    min-block-size: min(620px, calc(100svh - 8px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(96px, 19svh, 118px);
+    --ar-safe-bottom: clamp(124px, 25svh, 150px);
+    min-block-size: min(604px, calc(100svh - 12px)) !important;
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inline-size: min(72%, 258px) !important;
+    min-block-size: clamp(170px, 34svh, 226px) !important;
+  }
+
+  .page-ar-game .ar-fresh-strip,
+  .page-ar-game .ar-species-panel,
+  .page-ar-game .ar-hint-pill {
+    font-size: .78rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .page-ar-game .ar-toolbar {
+    gap: 8px !important;
+    max-block-size: calc(34svh + env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 @media (max-width: 360px) {
   .page-ar-game .model-stage {
     min-block-size: min(640px, calc(100svh - 8px)) !important;
@@ -145,6 +178,23 @@
   .page-ar-game .ar-fish-btn {
     min-block-size: 44px !important;
     text-align: center;
+  }
+}
+
+@media (max-width: 360px) and (max-height: 700px) and (orientation: portrait) {
+  .page-ar-game .model-stage {
+    min-block-size: min(598px, calc(100svh - 8px)) !important;
+  }
+
+  .page-ar-game .ar-stage {
+    --ar-safe-top: clamp(90px, 18svh, 112px);
+    --ar-safe-bottom: clamp(128px, 28svh, 156px);
+  }
+
+  .page-ar-game .ar-model,
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inline-size: min(68%, 238px) !important;
+    min-block-size: clamp(156px, 31svh, 206px) !important;
   }
 }
 
