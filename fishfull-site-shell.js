@@ -21,13 +21,13 @@
       if (!img) {
         mark.textContent = '';
         img = document.createElement('img');
-        img.src = logoSrc;
         img.width = 48;
         img.height = 48;
         img.loading = 'eager';
         img.decoding = 'async';
         mark.appendChild(img);
       }
+      img.src = logoSrc;
       img.alt = logoAlt();
     });
   }
@@ -65,6 +65,7 @@
 
   function scheduleApply() {
     window.setTimeout(applyShell, 0);
+    window.setTimeout(applyShell, 120);
   }
 
   document.addEventListener('DOMContentLoaded', scheduleApply);
