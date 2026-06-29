@@ -8,7 +8,7 @@
       body: '先掃 QR、看 AR 魚身、挑一條主推魚、找合作點、接一份零失敗食譜。FishFull 把這些步驟做成可點入口，讓消費者站在魚攤前不用猜，魚販也更好介紹。',
       cards: [
         ['掃碼開場', '魚攤、餐桌或社群貼文一掃就能進入，先看燈號、來源與料理方向。', '/pages/qr.html'],
-        ['AR 選魚小教練', '手機先看完整 3D 魚身，再用綠／黃／紅燈號判斷，現場比較敢問也比較敢買。', '/pages/ar-game.html'],
+        ['AR 選魚小教練', '手機先看完整 3D 魚身，再用綠／黃／紅燈號判斷，現場比較敢問也比較敢買。', '/ar.html'],
         ['主推魚', '先看今天推薦哪一條，包含口感、份量、問法與料理搭配。', '/pages/fish.html'],
         ['去附近買魚', '找市場、魚市、餐廳與漁港合作點，把知道變成真的去買。', '/pages/map.html'],
         ['零失敗食譜', '清蒸、乾煎、煮湯都拆成簡單步驟，第一次煮魚也不容易翻車。', '/pages/recipes.html']
@@ -21,7 +21,7 @@
       body: 'Scan a QR, view the AR fish, pick one featured catch, find a partner spot, and cook with an easy recipe. FishFull turns seafood shopping into a clear route for shoppers and vendors.',
       cards: [
         ['Scan to Start', 'Open the guide from a stall, table, or social post and see color guidance, source notes, and cooking direction.', '/pages/qr.html'],
-        ['AR Fish Coach', 'View the full 3D fish on your phone, then use green/yellow/red guidance to ask better and buy smarter.', '/pages/ar-game.html'],
+        ['AR Fish Coach', 'View the full 3D fish on your phone, then use green/yellow/red guidance to ask better and buy smarter.', '/ar.html'],
         ['Featured Fish', 'See one recommended fish with taste, portion, buying questions, and recipe pairing.', '/pages/fish.html'],
         ['Buy Nearby', 'Find partner markets, restaurants, fish markets, and ports.', '/pages/map.html'],
         ['Easy Recipes', 'Steam, pan-fry, or make soup with low-fail steps.', '/pages/recipes.html']
@@ -55,7 +55,7 @@
       '.fishfull-loop__card:focus-visible{outline:3px solid rgba(15,120,152,.45);outline-offset:4px}',
       '.fishfull-loop__card strong{display:block;margin-bottom:8px;color:#0d4861;font-size:1.08rem}',
       '.fishfull-loop__card p{margin:0;color:#46616d;line-height:1.65;font-weight:650}',
-      '.fishfull-loop__card[href$="ar-game.html"]{background:linear-gradient(150deg,rgba(255,255,255,.94),rgba(223,246,255,.92));border-color:rgba(16,132,168,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.58)}',
+      '.fishfull-loop__card[href="/ar.html"]{background:linear-gradient(150deg,rgba(255,255,255,.94),rgba(223,246,255,.92));border-color:rgba(16,132,168,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.58)}',
       '.fishfull-loop__cta{margin:20px 0 0;padding:14px 16px;border-radius:18px;background:#12354a;color:#fff;font-weight:900;line-height:1.55}',
       '@media (max-width:1100px){.fishfull-loop__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}',
       '@media (max-width:860px){.fishfull-loop__grid{grid-template-columns:1fr}.fishfull-loop{border-radius:24px}.fishfull-loop__card{min-height:auto}}'
