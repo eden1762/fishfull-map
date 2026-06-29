@@ -38,6 +38,22 @@
   max-inline-size: calc(100% - (var(--fishfull-phone-gutter) * 2)) !important;
 }
 
+.page-ar-game .ar-toolbar,
+.page-ar-game .ar-toolbar *,
+.page-ar-game .ar-fish-options,
+.page-ar-game .ar-fish-btn,
+.page-ar-game .ar-toggle-camera {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.page-ar-game .ar-fish-btn,
+.page-ar-game .ar-toggle-camera {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
 @media (max-width: 768px) {
   .page-ar-game .ar-focus-layout {
     overflow: clip !important;
