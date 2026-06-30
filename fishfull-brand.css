@@ -18,7 +18,20 @@
 .fishfull-logo-mark {
   overflow: hidden;
   background: #fff !important;
+  background-image: none !important;
   box-shadow: 0 12px 28px rgba(8, 107, 136, .18) !important;
+}
+
+.fishfull-logo-mark::before,
+.fishfull-logo-mark::after,
+.brand-mark .fishfull-logo-mark::before,
+.brand-mark .fishfull-logo-mark::after,
+.site-nav .fishfull-logo-mark::before,
+.site-nav .fishfull-logo-mark::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
 }
 
 .fishfull-logo-mark img {
