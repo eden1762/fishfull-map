@@ -45,6 +45,10 @@ def assert_official_logo_guard() -> None:
         raise AssertionError("fishfull-site-shell.js must enforce /fishfull.jpg as the site logo")
     if COPYRIGHT not in shell:
         raise AssertionError("fishfull-site-shell.js must enforce the exact copyright footer")
+    if "dedupeBrandLogos" not in shell:
+        raise AssertionError("fishfull-site-shell.js must remove duplicate or alternate brand-logo visuals")
+    if "removeDuplicateCopyrightText" not in shell:
+        raise AssertionError("fishfull-site-shell.js must remove duplicate copyright text outside the managed footer")
 
     html_paths = sorted(ROOT.glob("*.html")) + sorted((ROOT / "pages").glob("*.html"))
     for path in html_paths:
@@ -56,6 +60,9 @@ def assert_official_logo_guard() -> None:
         for tag in brand_imgs:
             if OFFICIAL_LOGO not in tag:
                 raise AssertionError(f"{rel}: brand/logo image must use {OFFICIAL_LOGO}: {tag}")
+        static_copyrights = content.count(COPYRIGHT)
+        if static_copyrights > 1:
+            raise AssertionError(f"{rel}: static copyright statement appears {static_copyrights} times")
 
 
 def assert_ar_entry_is_primary() -> None:
@@ -86,7 +93,7 @@ def main() -> int:
     assert_ar_entry_is_primary()
     assert_no_public_phrase("Elon Musk")
     assert_no_public_phrase("first principles")
-    print("FishFull static checks passed: official logo, footer, AR entry, and mobile fish-fit guard are present.")
+    print("FishFull static checks passed: official logo, no duplicate footer guard, AR entry, and mobile fish-fit guard are present.")
     return 0
 
 
