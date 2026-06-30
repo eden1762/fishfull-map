@@ -1,0 +1,98 @@
+/* FishFull AR：相機開啟時，把操作鈕壓到安全區，不蓋住完整魚身。 */
+.page-ar-game .ar-stage.is-ar-on {
+  min-height: clamp(520px, 76svh, 680px);
+  padding-bottom: max(92px, calc(78px + env(safe-area-inset-bottom)));
+}
+
+.page-ar-game .ar-stage.is-ar-on .ar-camera {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: .94;
+}
+
+.page-ar-game .ar-stage.is-ar-on .ar-model {
+  top: 4%;
+  bottom: max(108px, calc(96px + env(safe-area-inset-bottom)));
+  height: auto;
+  max-height: calc(100% - 126px - env(safe-area-inset-bottom));
+}
+
+.page-ar-game .ar-stage.is-ar-on .ar-fresh-strip,
+.page-ar-game .ar-stage.is-ar-on .ar-hint-pill {
+  background: rgba(255,255,255,.84);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 768px) {
+  .page-ar-game .ar-stage.is-ar-on {
+    min-height: min(680px, calc(100svh - 76px));
+    margin-bottom: 300px;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inset: 8% -34% max(118px, calc(108px + env(safe-area-inset-bottom))) -34%;
+    width: 168%;
+    height: auto;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-toolbar {
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    max-width: calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    overflow: hidden;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-real-ar-btn {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(88px, calc(78px + env(safe-area-inset-bottom)));
+    max-width: calc(100% - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-hint-pill {
+    bottom: max(68px, calc(58px + env(safe-area-inset-bottom)));
+    max-width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 430px) {
+  .page-ar-game .ar-stage.is-ar-on .ar-fresh-strip {
+    top: 52px;
+    max-width: calc(100% - 18px);
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inset: 10% -42% max(124px, calc(112px + env(safe-area-inset-bottom))) -42%;
+    width: 184%;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-hint-pill {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+@media (max-height: 640px) and (max-width: 520px) {
+  .page-ar-game .ar-stage.is-ar-on {
+    min-height: calc(100svh - 64px);
+  }
+
+  .page-ar-game .ar-stage.is-ar-on::before,
+  .page-ar-game .ar-stage.is-ar-on .ar-fresh-strip {
+    opacity: .28;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-hint-pill {
+    display: none;
+  }
+
+  .page-ar-game .ar-stage.is-ar-on .ar-model {
+    inset: 6% -44% max(96px, calc(88px + env(safe-area-inset-bottom))) -44%;
+    width: 188%;
+  }
+}
