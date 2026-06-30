@@ -128,7 +128,7 @@
       frame.className = 'ar-safe-view';
       frame.setAttribute('aria-hidden', 'true');
       frame.setAttribute('data-ar-safe-view', '1');
-      frame.innerHTML = '<span class="ar-safe-view__corner"></span><span class="ar-safe-view__corner"></span><span class="ar-safe-view__corner"></span><span class="ar-safe-view__line"></span><span class="ar-safe-view__label"></span>';
+      frame.innerHTML = '<span class="ar-safe-view__corner"></span><span class="ar-safe-view__corner"></span><span class="ar-safe-view__corner"></span><span class="ar-safe-view__corner"></span><span class="ar-safe-view__line"></span><span class="ar-safe-view__label"></span>';
       stage.appendChild(frame);
     }
 
