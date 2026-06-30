@@ -23,12 +23,13 @@
     var style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = [
-      '.ar-safe-status{position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:7;max-width:min(86%,380px);padding:8px 12px;border:1px solid rgba(8,93,117,.16);border-radius:999px;background:rgba(255,255,255,.9);color:#085d75;font-size:12px;font-weight:800;line-height:1.45;text-align:center;box-shadow:0 10px 24px rgba(7,54,77,.1);pointer-events:none}',
+      '.ar-safe-status{position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:7;max-width:min(86%,380px);padding:8px 12px;border:1px solid rgba(8,93,117,.16);border-radius:999px;background:rgba(255,255,255,.9);color:#085d75;font-size:12px;font-weight:800;line-height:1.45;text-align:center;box-shadow:0 10px 24px rgba(7,54,77,.1);pointer-events:none;transition:opacity .22s ease,transform .22s ease}',
       '.ar-safe-status[data-state="ready"]{opacity:.86}',
+      '.ar-safe-status[data-state="ready"][data-faded="1"]{opacity:0;transform:translate(-50%,8px)}',
       '.ar-safe-status[data-state="slow"]{border-color:rgba(255,159,28,.3);color:#7a4d07;background:rgba(255,250,237,.94)}',
       '.ar-safe-status[data-state="error"]{border-color:rgba(213,91,91,.26);color:#8f3f3f;background:rgba(255,248,246,.94)}',
       '@media(max-width:560px){.ar-safe-status{bottom:calc(6px + env(safe-area-inset-bottom));max-width:calc(100% - 28px);font-size:11px;border-radius:16px;padding:7px 10px}}',
-      '@media(max-height:620px){.ar-safe-status{position:relative;left:auto;bottom:auto;transform:none;margin:6px auto 0}}'
+      '@media(max-height:620px){.ar-safe-status{position:relative;left:auto;bottom:auto;transform:none;margin:6px auto 0}.ar-safe-status[data-state="ready"][data-faded="1"]{transform:translateY(6px)}}'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -49,8 +50,17 @@
       status.setAttribute('aria-live', 'polite');
       stage.appendChild(status);
     }
+    if (stage._fishfullArReadyStatusTimer) window.clearTimeout(stage._fishfullArReadyStatusTimer);
+    status.removeAttribute('data-faded');
+    status.removeAttribute('aria-hidden');
     status.setAttribute('data-state', state);
     status.textContent = statusText(state);
+    if (state === 'ready') {
+      stage._fishfullArReadyStatusTimer = window.setTimeout(function () {
+        status.setAttribute('data-faded', '1');
+        status.setAttribute('aria-hidden', 'true');
+      }, 4200);
+    }
   }
 
   function watchModel(stage) {
