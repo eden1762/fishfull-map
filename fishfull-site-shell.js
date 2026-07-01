@@ -3,6 +3,7 @@
 
   var logoSrc = '/fishfull.jpg';
   var copyrightText = 'Copyright © 2026Fishfull漁有料版權所有';
+  var cleanupStyleId = 'fishfull-shell-cleanup-style';
   var generatedTrademarkSelector = [
     '[data-generated-logo]',
     '[data-generated-mark]',
@@ -25,6 +26,17 @@
 
   function logoAlt() {
     return currentLang() === 'en' ? 'FishFull official logo' : 'FishFull 漁有料官方商標';
+  }
+
+  function installCleanupStyle() {
+    if (!document.head || document.getElementById(cleanupStyleId)) return;
+    var style = document.createElement('style');
+    style.id = cleanupStyleId;
+    style.textContent = [
+      'svg.brand-logo-img{display:none!important;visibility:hidden!important;width:0!important;height:0!important;overflow:hidden!important;}',
+      'footer.site-footer.fishfull-global-footer::before{content:none!important;display:none!important;background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;}'
+    ].join('');
+    document.head.appendChild(style);
   }
 
   function isBrandContainer(node) {
@@ -82,6 +94,10 @@
     if (node && node.parentNode) node.parentNode.removeChild(node);
   }
 
+  function removeRequestedLegacyElements() {
+    Array.prototype.slice.call(document.querySelectorAll('svg.brand-logo-img')).forEach(removeNode);
+  }
+
   function dedupeBrandLogos() {
     var containers = document.querySelectorAll('.brand-mark, .brand');
     Array.prototype.forEach.call(containers, function (container) {
@@ -118,6 +134,7 @@
   function isGeneratedTrademarkVisual(node) {
     if (!node || !node.matches) return false;
     if (hasOfficialLogo(node)) return false;
+    if (node.matches('svg.brand-logo-img')) return true;
     if (node.matches(generatedTrademarkSelector)) return true;
     var label = [
       node.getAttribute('class') || '',
@@ -134,6 +151,7 @@
     Array.prototype.forEach.call(scopes, function (scope) {
       Array.prototype.slice.call(scope.querySelectorAll(generatedTrademarkSelector + ', svg, canvas, picture, img')).forEach(function (node) {
         if (hasOfficialLogo(node)) return;
+        if (node.matches && node.matches('svg.brand-logo-img')) return removeNode(node);
         if (node.matches && node.matches('svg, canvas') && isBrandContainer(node)) return removeNode(node);
         if (isGeneratedTrademarkVisual(node)) return removeNode(node.closest('picture') || node);
         if (node.matches && node.matches('img') && isLogoImage(node) && node.getAttribute('src') !== logoSrc) return removeNode(node.closest('picture') || node);
@@ -184,10 +202,11 @@
     });
   }
 
-  
-
   function applyShell() {
+    installCleanupStyle();
+    removeRequestedLegacyElements();
     applyLogo();
+    removeRequestedLegacyElements();
   }
 
   function scheduleApply() {
