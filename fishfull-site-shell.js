@@ -3,6 +3,7 @@
 
   var logoSrc = '/fishfull.jpg';
   var copyrightText = 'Copyright © 2026Fishfull漁有料版權所有';
+  var blockedBrandLogoSvgSelector = 'svg[class="brand-logo-img"], svg.brand-logo-img';
   var generatedTrademarkSelector = [
     '[data-generated-logo]',
     '[data-generated-mark]',
@@ -15,7 +16,8 @@
     '.fish-icon',
     '.fish-badge',
     '.round-fish-logo',
-    '.legacy-fishfull-mark'
+    '.legacy-fishfull-mark',
+    blockedBrandLogoSvgSelector
   ].join(', ');
   var observerTimer = null;
 
@@ -71,15 +73,21 @@
   }
 
   function applyLogo() {
+    removeBannedBrandLogoSvg();
     var marks = document.querySelectorAll('.brand-sun, .brand-symbol, .brand-mark .fishfull-logo-mark, .brand .fishfull-logo-mark');
     Array.prototype.forEach.call(marks, setOfficialLogo);
     dedupeBrandLogos();
     removeAlternateTrademarkVisuals();
     removeGeneratedTrademarkVisuals();
+    removeBannedBrandLogoSvg();
   }
 
   function removeNode(node) {
     if (node && node.parentNode) node.parentNode.removeChild(node);
+  }
+
+  function removeBannedBrandLogoSvg() {
+    Array.prototype.slice.call(document.querySelectorAll(blockedBrandLogoSvgSelector)).forEach(removeNode);
   }
 
   function dedupeBrandLogos() {
@@ -118,6 +126,7 @@
   function isGeneratedTrademarkVisual(node) {
     if (!node || !node.matches) return false;
     if (hasOfficialLogo(node)) return false;
+    if (node.matches(blockedBrandLogoSvgSelector)) return true;
     if (node.matches(generatedTrademarkSelector)) return true;
     var label = [
       node.getAttribute('class') || '',
@@ -134,6 +143,7 @@
     Array.prototype.forEach.call(scopes, function (scope) {
       Array.prototype.slice.call(scope.querySelectorAll(generatedTrademarkSelector + ', svg, canvas, picture, img')).forEach(function (node) {
         if (hasOfficialLogo(node)) return;
+        if (node.matches && node.matches(blockedBrandLogoSvgSelector)) return removeNode(node);
         if (node.matches && node.matches('svg, canvas') && isBrandContainer(node)) return removeNode(node);
         if (isGeneratedTrademarkVisual(node)) return removeNode(node.closest('picture') || node);
         if (node.matches && node.matches('img') && isLogoImage(node) && node.getAttribute('src') !== logoSrc) return removeNode(node.closest('picture') || node);
@@ -196,10 +206,13 @@
 
     if (!footer) {
       footer = document.createElement('footer');
-      footer.className = 'site-footer';
+      footer.className = 'site-footer fishfull-global-footer';
       footerParent().appendChild(footer);
-    } else if (footer.parentNode !== footerParent() && document.body.getAttribute('data-page') === 'ar-game') {
-      footerParent().appendChild(footer);
+    } else {
+      footer.classList.add('fishfull-global-footer');
+      if (footer.parentNode !== footerParent() && document.body.getAttribute('data-page') === 'ar-game') {
+        footerParent().appendChild(footer);
+      }
     }
 
     footer.setAttribute('aria-label', currentLang() === 'en' ? 'Copyright' : '版權聲明');
