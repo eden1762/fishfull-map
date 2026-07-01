@@ -4,6 +4,7 @@
   var logoSrc = '/fishfull.jpg';
   var copyrightText = 'Copyright © 2026Fishfull漁有料版權所有';
   var cleanupStyleId = 'fishfull-shell-cleanup-style';
+  var legacyBrandClass = ['brand', 'logo', 'img'].join('-');
   var generatedTrademarkSelector = [
     '[data-generated-logo]',
     '[data-generated-mark]',
@@ -12,6 +13,8 @@
     '.generated-mark',
     '.ai-logo',
     '.ai-generated-logo',
+    '.' + legacyBrandClass,
+    'svg.' + legacyBrandClass,
     '.fish-logo',
     '.fish-icon',
     '.fish-badge',
@@ -32,7 +35,10 @@
     if (!document.head || document.getElementById(cleanupStyleId)) return;
     var style = document.createElement('style');
     style.id = cleanupStyleId;
-    style.textContent = 'footer.site-footer.fishfull-global-footer::before{content:none!important;display:none!important;background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;}';
+    style.textContent = [
+      'footer.site-footer.fishfull-global-footer::before{content:none!important;display:none!important;background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;}',
+      'svg.' + legacyBrandClass + ',.' + legacyBrandClass + '[data-generated-logo],.generated-logo,.generated-mark,.ai-logo,.ai-generated-logo,.round-fish-logo,.legacy-fishfull-mark{display:none!important;}'
+    ].join('\n');
     document.head.appendChild(style);
   }
 
@@ -79,19 +85,33 @@
     return holder;
   }
 
-  function applyLogo() {
-    var marks = document.querySelectorAll('.brand-sun, .brand-symbol, .brand-mark .fishfull-logo-mark, .brand .fishfull-logo-mark');
-    Array.prototype.forEach.call(marks, setOfficialLogo);
-    dedupeBrandLogos();
-    removeAlternateTrademarkVisuals();
-    removeGeneratedTrademarkVisuals();
-  }
-
   function removeNode(node) {
     if (node && node.parentNode) node.parentNode.removeChild(node);
   }
 
+  function removeGeneratedTrademarkVisuals() {
+    if (!document.querySelectorAll) return;
+    Array.prototype.slice.call(document.querySelectorAll(generatedTrademarkSelector)).forEach(function (node) {
+      if (!node || hasOfficialLogo(node)) return;
+      removeNode(node);
+    });
+  }
 
+  function removeAlternateTrademarkVisuals() {
+    if (!document.querySelectorAll) return;
+    Array.prototype.slice.call(document.querySelectorAll('img, svg')).forEach(function (node) {
+      if (!node || hasOfficialLogo(node)) return;
+      if (node.matches && node.matches('svg.' + legacyBrandClass)) {
+        removeNode(node);
+        return;
+      }
+      if (!node.matches || !node.matches('img')) return;
+      if (!isLogoImage(node)) return;
+      if (node.getAttribute('src') === logoSrc) return;
+      var removable = node.closest && node.closest('.home-brand-logo, .brand-symbol, .brand-sun, .generated-logo, .generated-mark, .ai-logo, .ai-generated-logo, .' + legacyBrandClass + ', .fish-logo, .fish-icon, .fish-badge, .round-fish-logo, .legacy-fishfull-mark');
+      removeNode(removable || node);
+    });
+  }
 
   function dedupeBrandLogos() {
     var containers = document.querySelectorAll('.brand-mark, .brand');
@@ -126,6 +146,14 @@
     });
   }
 
+  function applyLogo() {
+    var marks = document.querySelectorAll('.brand-sun, .brand-symbol, .brand-mark .fishfull-logo-mark, .brand .fishfull-logo-mark');
+    Array.prototype.forEach.call(marks, setOfficialLogo);
+    dedupeBrandLogos();
+    removeAlternateTrademarkVisuals();
+    removeGeneratedTrademarkVisuals();
+  }
+
   function isGeneratedTrademarkVisual(node) {
     if (!node || !node.matches) return false;
     if (hasOfficialLogo(node)) return false;
@@ -137,12 +165,20 @@
       node.getAttribute('alt') || '',
       node.getAttribute('src') || ''
     ].join(' ');
-    return /(generated|ai[-_ ]?logo|round[-_ ]?fish|fish[-_ ]?(logo|icon|badge)|legacy[-_ ]?fishfull|brand[-_ ]?(fish|badge|icon))/i.test(label);
+    return /(generated|ai[-_ ]?logo|round[-_ ]?fish|fish[-_ ]?(logo|icon|badge)|legacy[-_ ]?fishfull|brand[-_ ]?logo[-_ ]?img|brand[-_ ]?(fish|badge|icon))/i.test(label);
   }
 
+  function removeGeneratedTrademarkContainers() {
+    if (!document.querySelectorAll) return;
+    Array.prototype.slice.call(document.querySelectorAll('[class], [id], [aria-label], img, svg')).forEach(function (node) {
+      if (isGeneratedTrademarkVisual(node)) removeNode(node);
+    });
+  }
 
-
-
+  function removeLegacyGlobalFooter() {
+    if (!document.querySelectorAll) return;
+    Array.prototype.slice.call(document.querySelectorAll('footer.fishfull-global-footer')).forEach(removeNode);
+  }
 
   function footerParent() {
     return document.querySelector('.page-shell') || document.querySelector('.page-home') || document.getElementById('root') || document.body;
@@ -174,8 +210,11 @@
 
   function applyShell() {
     installCleanupStyle();
+    removeLegacyGlobalFooter();
+    removeGeneratedTrademarkContainers();
     applyLogo();
-
+    removeDuplicateCopyrightText(null);
+    footerParent();
   }
 
   function scheduleApply() {
@@ -185,7 +224,7 @@
   }
 
   function watchPageUpdates() {
-    if (!window.MutationObserver) return;
+    if (!window.MutationObserver || !document.body) return;
     new MutationObserver(scheduleApply).observe(document.body, {
       childList: true,
       subtree: true
