@@ -9,7 +9,6 @@
 
   var copyrightZh = 'Copyright © 2026Fishfull漁有料版權所有';
   var copyrightEn = 'Copyright © 2026 Fishfull 漁有料. All rights reserved.';
-  var logoMarkup = '<svg class="brand-logo-img" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="29" fill="#fff" stroke="#006d77" stroke-width="3"/><path d="M8 39c12-16 28-13 36 0 5 8 13 7 18-1-4 17-21 23-36 17C16 51 10 45 8 39z" fill="#006d77"/><path d="M24 18c13-8 30 4 27 15-3 8-17 11-27 6-8-4-10-15 0-21z" fill="#168a49"/><path d="M47 18c6-3 8-8 6-14 8 7 7 17 1 24" fill="#168a49"/><path d="M50 33c6 3 10 8 11 15-7-4-13-5-19-2" fill="#168a49"/><circle cx="28" cy="24" r="1.8" fill="#fff"/><path d="M36 36v16M42 36v16M48 36v16" stroke="#006d77" stroke-width="2.4" stroke-linecap="round"/></svg>';
 
   var pageNames = {
     about: ['Idea', 'Green seafood, made practical', 'FishFull turns seafood shopping into a clear path: pick a friendly fish, find a nearby seafood spot, cook it with less stress, and leave one real note.'],
@@ -46,42 +45,28 @@
       '.page-home{background:radial-gradient(circle at 78% 12%,rgba(255,255,255,.98) 0 10%,rgba(255,255,255,0) 24%),linear-gradient(135deg,#ffffff 0%,#eefdfa 34%,#b9eee6 68%,#006d77 100%)!important;}',
       '.page-home::before{background:linear-gradient(120deg,rgba(255,255,255,.86),rgba(232,251,248,.38) 45%,rgba(0,109,119,.16))!important;}.page-home::after{background:linear-gradient(90deg,rgba(255,255,255,.72),rgba(0,109,119,.16),rgba(22,138,73,.16))!important;}',
       '.site-nav,.topbar,.mobile-social-dock,.desktop-social-dock{background:rgba(255,255,255,.86)!important;border-color:rgba(0,109,119,.16)!important;box-shadow:0 18px 46px rgba(0,109,119,.14)!important;}',
-      '.brand-sun,.brand-symbol,.sun-dot{display:none!important;}.brand-mark,.brand{gap:12px!important;}.brand-logo-img{width:52px;height:52px;object-fit:contain;border-radius:16px;background:#fff;box-shadow:0 10px 28px rgba(0,109,119,.16);flex:0 0 auto;}.brand-mark .brand-logo-img{width:54px;height:54px;}',
+      '.brand-sun,.brand-symbol,.sun-dot{display:none!important;}.brand-mark,.brand{gap:12px!important;}',
       '.brand-text strong,.brand strong,.brand-mark strong{color:var(--fishfull-ink)!important;}.brand-kicker,.brand small,.eyebrow{color:var(--fishfull-blue)!important;}',
       '.nav-links a,.topnav a{background:rgba(255,255,255,.72)!important;border-color:rgba(0,109,119,.12)!important;color:#0c545c!important;}.nav-links a:hover,.topnav a:hover,.topnav a[aria-current="page"]{background:#e8fbf8!important;color:#005b63!important;}',
       '.hero-copy,.coast-panel,.route-panel,.page-hero,.content-section,.hero-card,.info-card,.action-card,.recipe-card,.location-card,.spotlight-main,.spotlight-facts article,.feedback-form{background:rgba(255,255,255,.92)!important;border-color:rgba(0,109,119,.14)!important;box-shadow:0 20px 58px rgba(0,109,119,.13)!important;}',
       '.coast-sky{background:linear-gradient(180deg,#e6fbff,#ffffff)!important;}.static-sun{background:radial-gradient(circle at 35% 30%,#fff 0 16%,#8de0cd 17% 58%,#168a49 100%)!important;box-shadow:0 20px 60px rgba(22,138,73,.28)!important;}.coast-water{background:linear-gradient(180deg,#51c8d2,#006d77)!important;}.coast-sand{background:linear-gradient(180deg,#ffffff,#e8fbf8)!important;}',
       '.route-blue,.route-orange,.route-pink{background:linear-gradient(180deg,#f7fffe,#ffffff 58%,#e8fbf8)!important;}.route-blue .route-button,.route-orange .route-button,.route-pink .route-button,.feedback-save,.map-action{background:linear-gradient(135deg,#006d77,#168a49)!important;color:#fff!important;}',
       '.route-badge,.coast-tags span,.badge-row span,.filter-chip,.card-icon,.mini-link{background:#e8fbf8!important;color:#006d77!important;border-color:rgba(0,109,119,.14)!important;}.filter-chip.is-active,.social-instagram,.circle-link{background:linear-gradient(135deg,#006d77,#168a49)!important;color:#fff!important;}.social-language{background:#fff!important;color:#006d77!important;border:1px solid rgba(0,109,119,.18)!important;}',
-      '.site-footer,.fishfull-global-footer{margin:30px auto 0;padding:22px 18px;text-align:center;color:#0b545c;background:rgba(255,255,255,.92);border:1px solid rgba(0,109,119,.14);border-radius:26px;box-shadow:0 18px 44px rgba(0,109,119,.12);font-weight:900;line-height:1.6;}.site-footer strong,.site-footer span,.fishfull-global-footer strong,.fishfull-global-footer span{display:block;color:#0b545c!important;}.page-shell .site-footer,.page-shell .fishfull-global-footer{max-width:1180px;}.page-home .fishfull-global-footer{max-width:min(1180px,calc(100% - 28px));margin-bottom:26px;}',
-      '.fishfull-en-page .info-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}.fishfull-en-page .link-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}',
-      '@media(max-width:720px){.brand-logo-img,.brand-mark .brand-logo-img{width:42px;height:42px;border-radius:13px;}.site-footer,.fishfull-global-footer{margin:18px 10px 0;border-radius:22px;font-size:13px;}.page-home .fishfull-global-footer{margin-bottom:92px;}}'
+      '.site-footer,.site-footer strong,.site-footer span,.fishfull-global-footer strong,.fishfull-global-footer span{display:block;color:#0b545c!important;}.page-shell .site-footer,.page-shell .fishfull-global-footer{max-width:1180px;}.page-home .fishfull-global-footer{max-width:min(1180px,calc(100% - 28px));margin-bottom:26px;}',
+      '.fishfull-en-page .info-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}.fishfull-en-page .link-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}'
+      
     ].join('');
     document.head.appendChild(style);
   }
 
-  function enhanceBrandNodes() {
-    document.querySelectorAll('.brand-mark,.brand').forEach(function (brand) {
-      if (!brand.querySelector('.brand-logo-img')) brand.insertAdjacentHTML('afterbegin', logoMarkup);
-      var small = brand.querySelector('.brand-kicker,.brand small');
-      if (small && small.textContent !== 'Green Seafood') small.textContent = 'Green Seafood';
-    });
-  }
-
-  function ensureFooter() {
-    var root = document.getElementById('root');
-    var host = root && root.firstElementChild ? root.firstElementChild : root;
-    if (!host) return;
-    var footer = host.querySelector('.site-footer,.fishfull-global-footer');
-    if (!footer) {
-      footer = document.createElement('footer');
-      footer.className = 'fishfull-global-footer';
-      host.appendChild(footer);
+    function enhanceBrandNodes() {
+        document.querySelectorAll('.brand-mark,.brand').forEach(function (brand) {
+            var small = brand.querySelector('.brand-kicker,.brand small');
+            if (small && small.textContent !== 'Green Seafood') small.textContent = 'Green Seafood';
+        });
     }
-    footer.classList.add('fishfull-global-footer');
-    var html = '<strong>FishFull Green Seafood</strong><span>' + escapeHtml(active === 'en' ? copyrightEn : copyrightZh) + '</span>';
-    if (footer.innerHTML !== html) footer.innerHTML = html;
-  }
+
+  
 
   function renderEnglishContentPage() {
     if (active !== 'en') return;
@@ -100,7 +85,7 @@
 
   var decorateTimer = 0;
   function decorateSoon() { clearTimeout(decorateTimer); decorateTimer = window.setTimeout(decorate, 0); }
-  function decorate() { injectTheme(); renderEnglishContentPage(); enhanceBrandNodes(); ensureFooter(); updateButtons(); }
+  function decorate() { injectTheme(); renderEnglishContentPage(); enhanceBrandNodes(); updateButtons(); }
   function set(next) {
     active = next === 'en' ? 'en' : 'zh';
     try { localStorage.setItem('fishfull-language', active); localStorage.setItem('scm-language', active); } catch (error) {}

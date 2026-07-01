@@ -15,18 +15,6 @@
   line-height: 1.1;
 }
 
-svg[class="brand-logo-img"],
-svg.brand-logo-img {
-  display: none !important;
-  inline-size: 0 !important;
-  block-size: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  pointer-events: none !important;
-  opacity: 0 !important;
-}
-
 .fishfull-logo-mark {
   overflow: hidden;
   background: #fff !important;
@@ -39,14 +27,11 @@ svg.brand-logo-img {
 .brand-mark .fishfull-logo-mark::before,
 .brand-mark .fishfull-logo-mark::after,
 .site-nav .fishfull-logo-mark::before,
-.site-nav .fishfull-logo-mark::after,
-footer.site-footer.fishfull-global-footer::before,
-footer.site-footer.fishfull-global-footer ::before {
+.site-nav .fishfull-logo-mark::after {
   content: none !important;
   display: none !important;
   background: none !important;
   background-image: none !important;
-  box-shadow: none !important;
 }
 
 .fishfull-logo-mark img {
