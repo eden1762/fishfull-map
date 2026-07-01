@@ -86,7 +86,7 @@
   }
 
   var decorateTimer = 0;
-  function decorateSoon() { clearTimeout(decorateTimer); window.setTimeout(decorate, 0); }
+  function decorateSoon() { clearTimeout(decorateTimer); decorateTimer = window.setTimeout(decorate, 0); }
   function decorate() { injectTheme(); renderEnglishContentPage(); enhanceBrandNodes(); updateButtons(); }
   function set(next) {
     active = next === 'en' ? 'en' : 'zh';
