@@ -1,0 +1,27 @@
+/* Keep AR hero clear of assistant-generated fish drawings or decorative brand-like marks. */
+.page-ar-game .ar-phone-card .phone-fish,
+.page-ar-game .ar-phone-card .phone-fish-tail,
+.page-ar-game .ar-phone-card .phone-fish-body,
+.page-ar-game .ar-phone-card .phone-fish-eye {
+  display: none !important;
+}
+
+.page-ar-game .ar-phone-card {
+  min-height: 240px;
+  justify-content: center;
+  gap: 18px;
+}
+
+.page-ar-game .ar-phone-card strong,
+.page-ar-game .ar-phone-card em,
+.page-ar-game .ar-phone-card .phone-step-row {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 560px) {
+  .page-ar-game .ar-phone-card {
+    min-height: auto;
+    padding-block: 24px;
+  }
+}
