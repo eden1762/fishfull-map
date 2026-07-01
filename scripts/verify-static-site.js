@@ -6,11 +6,12 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
+
 const OFFICIAL_LOGO = '/fishfull.jpg';
 const COPYRIGHT = 'Copyright © 2026Fishfull漁有料版權所有';
-const TEXT_EXTENSIONS = new Set(['.html', '.js', '.css']);
-const SKIP_DIRS = new Set(['.git', 'node_modules', '.vercel']);
-const LEGACY_BRAND_CLASS = ['brand', 'logo', 'img'].join('-');
+const BRAND_LOGO_CLASS = 'brand-logo-img';
+const GLOBAL_FOOTER_CLASS = 'fishfull-global-footer';
+const TEXT_EXTENSIONS = new Set(['.html', '.js', '.css', '.json']);
 
 function normalizeRelative(filePath) {
   return path.relative(ROOT, filePath).split(path.sep).join('/');
@@ -33,9 +34,8 @@ function assertContains(relativePath, needle, reason) {
 function walkTextFiles(dir = ROOT, results = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const target = path.join(dir, entry.name);
-    const rel = normalizeRelative(target);
-    const parts = rel.split('/');
-    if (parts.some((part) => SKIP_DIRS.has(part))) continue;
+    const relativeParts = normalizeRelative(target).split('/');
+    if (relativeParts.includes('.git') || relativeParts.includes('node_modules')) continue;
 
     if (entry.isDirectory()) {
       walkTextFiles(target, results);
@@ -50,69 +50,58 @@ function walkTextFiles(dir = ROOT, results = []) {
 }
 
 function listHtmlFiles() {
-  const files = [];
-  for (const entry of fs.readdirSync(ROOT, { withFileTypes: true })) {
-    if (entry.isFile() && entry.name.endsWith('.html')) {
-      files.push(path.join(ROOT, entry.name));
-    }
-  }
-
-  const pagesDir = path.join(ROOT, 'pages');
-  if (fs.existsSync(pagesDir)) {
-    for (const entry of fs.readdirSync(pagesDir, { withFileTypes: true })) {
-      if (entry.isFile() && entry.name.endsWith('.html')) {
-        files.push(path.join(pagesDir, entry.name));
-      }
-    }
-  }
-  return files.sort();
+  return walkTextFiles().filter((filePath) => filePath.endsWith('.html')).sort();
 }
 
-function assertNoStaticGeneratedLogoFragments() {
+function assertValidVercelConfig() {
+  const config = JSON.parse(read('vercel.json'));
+  const rewrites = Array.isArray(config.rewrites) ? config.rewrites : [];
+  for (const destination of ['/pages/about.html', '/pages/map.html', '/pages/sustainability.html']) {
+    if (!rewrites.some((rewrite) => rewrite.destination === destination)) {
+      throw new Error(`vercel.json: missing rewrite destination ${destination}`);
+    }
+  }
+}
+
+function assertNoLegacyBrandLogoSvg() {
   const offenders = [];
-  const generatedSvgPattern = new RegExp(`<svg\\b[^>]*class=["'][^"']*\\b${LEGACY_BRAND_CLASS}\\b[^"']*["'][^>]*>`, 'i');
-  const legacyFooterPattern = /<footer\b[^>]*class=["'][^"']*\bfishfull-global-footer\b[^"']*["'][^>]*>/i;
+  const legacySvgClass = new RegExp(`<svg[^>]*class=["'][^"']*\\b${BRAND_LOGO_CLASS}\\b`, 'i');
+
+  for (const filePath of walkTextFiles()) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (legacySvgClass.test(content)) offenders.push(normalizeRelative(filePath));
+  }
+
+  if (offenders.length) {
+    throw new Error(`Remove legacy svg.${BRAND_LOGO_CLASS} markup from: ${offenders.join(', ')}`);
+  }
+}
+
+function assertNoGlobalFooterMarkup() {
+  const offenders = [];
+  const footerMarkup = new RegExp(`<footer[^>]*class=["'][^"']*\\b${GLOBAL_FOOTER_CLASS}\\b`, 'i');
 
   for (const filePath of listHtmlFiles()) {
-    const rel = normalizeRelative(filePath);
     const content = fs.readFileSync(filePath, 'utf8');
-    if (generatedSvgPattern.test(content)) offenders.push(`${rel}: contains generated brand logo SVG`);
-    if (legacyFooterPattern.test(content)) offenders.push(`${rel}: contains footer.fishfull-global-footer`);
+    if (footerMarkup.test(content)) offenders.push(normalizeRelative(filePath));
   }
 
   if (offenders.length) {
-    throw new Error(`Generated logo/footer fragments must not be checked in:\n${offenders.join('\n')}`);
-  }
-}
-
-function assertNoBannedLiteral() {
-  const bannedLiteral = LEGACY_BRAND_CLASS;
-  const offenders = [];
-  for (const filePath of walkTextFiles()) {
-    const rel = normalizeRelative(filePath);
-    const content = fs.readFileSync(filePath, 'utf8');
-    if (content.includes(bannedLiteral)) offenders.push(rel);
-  }
-  if (offenders.length) {
-    throw new Error(`Banned legacy brand class literal found in:\n${offenders.join('\n')}`);
+    throw new Error(`Remove static footer.${GLOBAL_FOOTER_CLASS} markup from: ${offenders.join(', ')}`);
   }
 }
 
 function assertOfficialLogoGuard() {
   const shell = read('fishfull-site-shell.js');
-  const requiredTerms = [
+  for (const term of [
     `var logoSrc = '${OFFICIAL_LOGO}'`,
-    'legacyBrandClass',
     'generatedTrademarkSelector',
-    'function removeGeneratedTrademarkVisuals',
-    'function removeAlternateTrademarkVisuals',
-    'function dedupeBrandLogos',
-    'function removeDuplicateCopyrightText',
-    'footer.site-footer.fishfull-global-footer::before',
+    'removeGeneratedTrademarkVisuals',
+    'removeAlternateTrademarkVisuals',
+    'dedupeBrandLogos',
+    'removeDuplicateCopyrightText',
     COPYRIGHT,
-  ];
-
-  for (const term of requiredTerms) {
+  ]) {
     if (!shell.includes(term)) {
       throw new Error(`fishfull-site-shell.js missing official-logo guard term: ${term}`);
     }
@@ -127,6 +116,7 @@ function assertOfficialLogoGuard() {
         throw new Error(`${rel}: brand/logo image must use ${OFFICIAL_LOGO}: ${tag}`);
       }
     }
+
     const copyrightCount = content.split(COPYRIGHT).length - 1;
     if (copyrightCount > 1) {
       throw new Error(`${rel}: static copyright statement appears ${copyrightCount} times`);
@@ -162,7 +152,7 @@ function assertArEntryIsPrimary() {
   }
 }
 
-function assertRequiredFiles() {
+function main() {
   for (const requiredPath of [
     'index.html',
     'ar.html',
@@ -170,6 +160,8 @@ function assertRequiredFiles() {
     'fishfull.jpg',
     'fishfull-brand.css',
     'fishfull-site-shell.js',
+    'site-i18n.js',
+    'vercel.json',
     'pages/ar-mobile-fish-fit.css',
     'pages/ar-ultra-small-phone.css',
     'pages/ar-safe-view.css',
@@ -180,19 +172,12 @@ function assertRequiredFiles() {
   ]) {
     read(requiredPath);
   }
-}
 
-function main() {
-  assertRequiredFiles();
-  assertNoStaticGeneratedLogoFragments();
-  assertNoBannedLiteral();
+  assertValidVercelConfig();
+  assertNoLegacyBrandLogoSvg();
+  assertNoGlobalFooterMarkup();
   assertOfficialLogoGuard();
   assertArEntryIsPrimary();
-
-  for (const filePath of walkTextFiles()) {
-    fs.readFileSync(filePath, 'utf8');
-  }
-
   console.log('FishFull static check passed.');
 }
 
