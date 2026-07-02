@@ -208,13 +208,31 @@
     });
   }
 
+  function ensureCopyrightFooter() {
+    if (!document.body || !document.createElement) return;
+    var parent = footerParent();
+    var footer = document.querySelector('footer.site-footer[data-fishfull-copyright="true"]');
+    if (!footer) {
+      footer = document.createElement('footer');
+      footer.className = 'site-footer';
+      footer.setAttribute('data-fishfull-copyright', 'true');
+      footer.setAttribute('aria-label', currentLang() === 'en' ? 'Copyright' : '版權資訊');
+    }
+    footer.textContent = copyrightText;
+    removeDuplicateCopyrightText(footer);
+    Array.prototype.slice.call(document.querySelectorAll('footer.site-footer')).forEach(function (node) {
+      if (node !== footer && node.textContent && node.textContent.indexOf(copyrightText) !== -1) removeNode(node);
+    });
+    if (footer.parentNode !== parent) parent.appendChild(footer);
+    if (!footer.parentNode) parent.appendChild(footer);
+  }
+
   function applyShell() {
     installCleanupStyle();
     removeLegacyGlobalFooter();
     removeGeneratedTrademarkContainers();
     applyLogo();
-    removeDuplicateCopyrightText(null);
-    footerParent();
+    ensureCopyrightFooter();
   }
 
   function scheduleApply() {
