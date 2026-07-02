@@ -174,6 +174,29 @@ function assertCopyrightFooterSource() {
   }
 }
 
+function assertLocalPageAssetsExist() {
+  const offenders = [];
+  const attrPattern = /\b(?:href|src)=["']([^"'#?]+)(?:[?#][^"']*)?["']/gi;
+  const staticPageExtensions = new Set(['.css', '.js', '.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.ico', '.json', '.gltf', '.glb', '.bin', '.webmanifest']);
+
+  for (const filePath of htmlFiles()) {
+    const rel = normalizeRelative(filePath);
+    const content = fs.readFileSync(filePath, 'utf8');
+    let match;
+    while ((match = attrPattern.exec(content))) {
+      const rawTarget = match[1];
+      if (!rawTarget || rawTarget.startsWith('http:') || rawTarget.startsWith('https:') || rawTarget.startsWith('mailto:') || rawTarget.startsWith('tel:') || rawTarget.startsWith('data:')) continue;
+      if (!staticPageExtensions.has(path.extname(rawTarget).toLowerCase())) continue;
+      const normalized = rawTarget.startsWith('/') ? rawTarget.slice(1) : path.posix.normalize(path.posix.join(path.posix.dirname(rel), rawTarget));
+      if (!fs.existsSync(fullPath(normalized))) offenders.push(`${rel}: missing referenced asset ${rawTarget} -> ${normalized}`);
+    }
+  }
+
+  if (offenders.length) {
+    throw new Error(`Missing local page assets:\n${offenders.join('\n')}`);
+  }
+}
+
 function assertArEntryIsPrimary() {
   assertContains('ar.html', 'data-page="ar-game"', 'root-level AR game page marker');
   assertContains('ar.html', '/pages/ar-mobile-fish-fit.css', 'mobile AR full-fish fit guard');
@@ -212,6 +235,7 @@ function main() {
   assertNoLegacyGeneratedMarkup();
   assertOfficialLogoGuard();
   assertCopyrightFooterSource();
+  assertLocalPageAssetsExist();
   assertArEntryIsPrimary();
   assertJavaScriptSyntax();
   console.log('FishFull static check passed.');
