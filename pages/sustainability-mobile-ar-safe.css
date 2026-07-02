@@ -217,3 +217,52 @@
     max-height: 64px !important;
   }
 }
+
+@media (max-width: 920px) and (orientation: landscape) {
+  .sustainability-layout .model-stage {
+    padding: 6px !important;
+  }
+
+  .ar-stage {
+    --ar-safe-top: 88px;
+    --ar-safe-bottom: 70px;
+    min-height: max(420px, calc(100svh - 20px)) !important;
+    margin-bottom: 220px !important;
+  }
+
+  .ar-toolbar {
+    grid-template-columns: minmax(0, 1fr) 44px !important;
+    gap: 6px !important;
+  }
+
+  .ar-title-pill {
+    display: none !important;
+  }
+
+  .ar-fish-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .ar-fish-btn,
+  .ar-toggle-btn,
+  .ar-real-ar-btn {
+    min-height: 36px !important;
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    font-size: 11px !important;
+  }
+
+  .ar-photo-btn {
+    width: 42px !important;
+    min-height: 42px !important;
+  }
+
+  .ar-fresh-strip {
+    top: 52px !important;
+    padding: 5px 6px !important;
+  }
+
+  .ar-hint-pill {
+    max-height: 54px !important;
+  }
+}
