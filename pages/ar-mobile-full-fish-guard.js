@@ -18,6 +18,11 @@
     return Math.round(viewportWidth()) + 'x' + Math.round(viewportHeight());
   }
 
+  function setAttrIfChanged(node, name, value) {
+    if (!node || node.getAttribute(name) === value) return;
+    node.setAttribute(name, value);
+  }
+
   function stageRect(model) {
     var stage = model && model.closest ? model.closest('.ar-stage, .model-stage, #fishfull-ar-stage') : null;
     return stage && stage.getBoundingClientRect ? stage.getBoundingClientRect() : null;
@@ -78,20 +83,20 @@
       rememberBaseView(model);
 
       if (isTightPhoneViewport(model)) {
-        model.setAttribute('camera-orbit', orbitWithDistance(model.dataset.fishfullBaseOrbit, fishDistance(model)));
-        model.setAttribute('field-of-view', fishFov(model));
-        model.setAttribute('camera-target', '0m 0.02m 0m');
-        model.setAttribute('min-camera-orbit', 'auto auto 3.25m');
-        model.setAttribute('max-camera-orbit', 'auto auto 6.4m');
-        model.setAttribute('interaction-prompt', 'none');
-        model.setAttribute('data-full-fish-guard', 'tight');
+        setAttrIfChanged(model, 'camera-orbit', orbitWithDistance(model.dataset.fishfullBaseOrbit, fishDistance(model)));
+        setAttrIfChanged(model, 'field-of-view', fishFov(model));
+        setAttrIfChanged(model, 'camera-target', '0m 0.02m 0m');
+        setAttrIfChanged(model, 'min-camera-orbit', 'auto auto 3.25m');
+        setAttrIfChanged(model, 'max-camera-orbit', 'auto auto 6.4m');
+        setAttrIfChanged(model, 'interaction-prompt', 'none');
+        setAttrIfChanged(model, 'data-full-fish-guard', 'tight');
       } else {
-        model.setAttribute('camera-orbit', model.dataset.fishfullBaseOrbit);
-        model.setAttribute('field-of-view', model.dataset.fishfullBaseFov);
-        model.setAttribute('camera-target', model.dataset.fishfullBaseTarget || '0m 0m 0m');
-        model.setAttribute('min-camera-orbit', 'auto auto 2.4m');
-        model.setAttribute('max-camera-orbit', 'auto auto 5m');
-        model.setAttribute('data-full-fish-guard', 'comfortable');
+        setAttrIfChanged(model, 'camera-orbit', model.dataset.fishfullBaseOrbit);
+        setAttrIfChanged(model, 'field-of-view', model.dataset.fishfullBaseFov);
+        setAttrIfChanged(model, 'camera-target', model.dataset.fishfullBaseTarget || '0m 0m 0m');
+        setAttrIfChanged(model, 'min-camera-orbit', 'auto auto 2.4m');
+        setAttrIfChanged(model, 'max-camera-orbit', 'auto auto 5m');
+        setAttrIfChanged(model, 'data-full-fish-guard', 'comfortable');
       }
 
       if (!model.dataset.fishfullGuardLoadBound) {
@@ -123,5 +128,12 @@
     window.visualViewport.addEventListener('resize', scheduleGuardWhenViewportChanges, { passive: true });
     window.visualViewport.addEventListener('scroll', scheduleGuardWhenViewportChanges, { passive: true });
   }
-  new MutationObserver(scheduleGuard).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src', 'camera-orbit', 'field-of-view', 'camera-target'] });
+  if (window.MutationObserver) {
+    new MutationObserver(scheduleGuard).observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['src', 'camera-orbit', 'field-of-view', 'camera-target']
+    });
+  }
 })();
