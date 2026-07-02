@@ -58,54 +58,57 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 22% 22%, rgba(255,255,255,.9), transparent 18%),
-    radial-gradient(circle at 82% 24%, rgba(255,173,50,.32), transparent 18%),
-    linear-gradient(180deg, #a9e8f7 0%, #f5fbff 48%, #ffe7ab 100%);
+    radial-gradient(circle at 82% 24%, rgba(31,157,114,.22), transparent 18%),
+    linear-gradient(180deg, #a9e8f7 0%, #f5fbff 48%, #e9fff5 100%);
 }
 
-.phone-fish {
+.ar-card-ocean {
   position: absolute;
   left: 50%;
-  top: 42%;
-  width: min(74%, 360px);
-  aspect-ratio: 2.65 / 1;
-  transform: translate(-50%, -50%) rotate(-6deg);
-  filter: drop-shadow(0 28px 28px rgba(7,54,77,.22));
+  top: 36%;
+  width: min(78%, 360px);
+  height: 150px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 28px 28px rgba(7,54,77,.16));
 }
 
-.phone-fish-body,
-.phone-fish-tail,
-.phone-fish-eye {
+.ar-card-ocean::before,
+.ar-card-ocean::after,
+.ar-card-ocean span {
+  content: '';
   position: absolute;
-  display: block;
-}
-
-.phone-fish-body {
-  inset: 18% 12% 18% 14%;
-  border-radius: 62% 48% 48% 62% / 52% 48% 50% 48%;
-  background:
-    radial-gradient(circle at 78% 35%, #fff 0 4%, transparent 5%),
-    radial-gradient(circle at 40% 58%, rgba(255,255,255,.42), transparent 24%),
-    linear-gradient(110deg, #fff1ec 0 12%, #df4b57 42%, #9f2b40 72%, #123047 100%);
-  box-shadow: inset 0 15px 24px rgba(255,255,255,.3), 0 24px 48px rgba(4,35,55,.18);
-}
-
-.phone-fish-tail {
   left: 0;
-  top: 24%;
-  width: 28%;
-  height: 52%;
-  clip-path: polygon(100% 50%,0 0,28% 50%,0 100%);
-  background: linear-gradient(120deg, #df4b57, #123047);
+  right: 0;
+  height: 54px;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 12% 72%, rgba(255,255,255,.92) 0 16%, transparent 17%),
+    radial-gradient(ellipse at 34% 68%, rgba(255,255,255,.72) 0 15%, transparent 16%),
+    radial-gradient(ellipse at 58% 72%, rgba(255,255,255,.86) 0 16%, transparent 17%),
+    radial-gradient(ellipse at 82% 68%, rgba(255,255,255,.74) 0 15%, transparent 16%),
+    linear-gradient(90deg, rgba(8,111,159,.88), rgba(31,157,114,.74));
 }
 
-.phone-fish-eye {
-  right: 22%;
-  top: 39%;
-  width: 7%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: radial-gradient(circle at 62% 45%, #123047 0 30%, #fff 32% 100%);
-  box-shadow: 0 0 0 4px rgba(255,255,255,.32);
+.ar-card-ocean::before {
+  top: 0;
+  opacity: .9;
+}
+
+.ar-card-ocean span:nth-child(1) {
+  top: 45px;
+  transform: translateX(-24px) scaleX(.96);
+  opacity: .72;
+}
+
+.ar-card-ocean span:nth-child(2) {
+  top: 88px;
+  transform: translateX(24px) scaleX(.9);
+  opacity: .58;
+}
+
+.ar-card-ocean span:nth-child(3),
+.ar-card-ocean::after {
+  display: none;
 }
 
 .phone-step-row {
@@ -225,7 +228,7 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 8% 12%, rgba(31,183,216,.16), transparent 26%),
-    radial-gradient(circle at 92% 0%, rgba(255,173,50,.18), transparent 24%),
+    radial-gradient(circle at 92% 0%, rgba(31,157,114,.18), transparent 24%),
     rgba(255,255,255,.8);
 }
 
@@ -239,271 +242,4 @@
   border-radius: 999px;
   background: radial-gradient(circle, rgba(8,93,117,.12), transparent 68%);
   pointer-events: none;
-}
-
-.page-ar-game .ar-mission-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 20px;
-}
-
-.page-ar-game .ar-mission-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-  border: 1px solid rgba(8,93,117,.12);
-  border-radius: 24px;
-  padding: 18px;
-  background: rgba(255,255,255,.84);
-  box-shadow: 0 20px 48px rgba(7,54,77,.1);
-}
-
-.page-ar-game .ar-mission-card h3 {
-  margin: 0;
-  color: var(--ocean-deep);
-  font-size: clamp(18px, 2vw, 24px);
-}
-
-.page-ar-game .ar-mission-card p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.72;
-}
-
-.page-ar-game .mission-tag {
-  align-self: flex-start;
-  border-radius: 999px;
-  padding: 7px 11px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 950;
-  letter-spacing: .08em;
-}
-
-.page-ar-game .mission-green .mission-tag {
-  background: #15845a;
-}
-
-.page-ar-game .mission-yellow .mission-tag {
-  background: #b57400;
-}
-
-.page-ar-game .mission-red .mission-tag {
-  background: #b64545;
-}
-
-.page-ar-game .mission-ask {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  border-radius: 18px;
-  padding: 12px;
-  background: rgba(232,247,251,.76);
-}
-
-.page-ar-game .mission-ask span {
-  display: inline-grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--ocean-deep);
-  color: #fff;
-  font-weight: 950;
-}
-
-.page-ar-game .mission-ask strong {
-  color: var(--ocean-deep);
-  line-height: 1.45;
-}
-
-.page-ar-game .ar-mission-card a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  margin-top: auto;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--ocean-deep), var(--ocean));
-  color: #fff;
-  font-weight: 950;
-  text-align: center;
-}
-
-.page-ar-game .ar-quick-guide .info-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-@media (max-width: 1020px) {
-  .page-ar-game .ar-focus-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .page-ar-game .model-stage {
-    order: -1;
-  }
-
-  .page-ar-game .ar-mission-grid,
-  .page-ar-game .ar-quick-guide .info-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .page-ar-game .page-shell {
-    width: min(100% - 18px, 1180px);
-  }
-
-  .page-ar-game .ar-game-hero {
-    gap: 14px;
-  }
-
-  .page-ar-game .hero-text {
-    padding: 24px 20px;
-  }
-
-  .page-ar-game .ar-phone-card {
-    min-height: 310px;
-    padding: 24px;
-  }
-
-  .phone-fish {
-    top: 44%;
-    width: min(86%, 320px);
-  }
-
-  .ar-hero-actions {
-    gap: 8px;
-  }
-
-  .hero-link {
-    flex: 1 1 150px;
-    padding: 11px 12px;
-    font-size: 14px;
-  }
-
-  .page-ar-game .ar-focus-layout {
-    padding: 12px !important;
-    border-radius: 28px;
-    gap: 14px;
-  }
-
-  .page-ar-game .model-stage {
-    min-height: min(740px, calc(100svh - 24px)) !important;
-    padding: 6px !important;
-    border-radius: 24px !important;
-  }
-
-  .page-ar-game .ar-stage {
-    --ar-safe-top: 132px;
-    --ar-safe-bottom: 118px;
-    min-height: min(704px, calc(100svh - 42px)) !important;
-    margin-bottom: 316px !important;
-    border-radius: 22px !important;
-  }
-
-  .page-ar-game .ar-model,
-  .page-ar-game .ar-stage.is-ar-on .ar-model {
-    top: var(--ar-safe-top) !important;
-    width: 100% !important;
-    height: calc(100% - var(--ar-safe-top) - var(--ar-safe-bottom)) !important;
-    min-height: 294px !important;
-  }
-
-  .page-ar-game .ar-fallback-fish {
-    top: calc(var(--ar-safe-top) + 31%) !important;
-    width: min(82%, 360px) !important;
-  }
-
-  .page-ar-game .ar-stage::before {
-    top: calc(var(--ar-safe-top) + 32%) !important;
-    width: min(86%, 360px) !important;
-  }
-
-  .page-ar-game .ar-toolbar {
-    grid-template-columns: minmax(0, 1fr) 48px !important;
-  }
-
-  .page-ar-game .ar-fish-options {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
-  .page-ar-game .ar-fish-btn {
-    min-height: 38px !important;
-  }
-
-  .page-ar-game .ar-real-ar-btn {
-    bottom: calc(var(--ar-safe-bottom) - 48px) !important;
-  }
-
-  .page-ar-game .ar-side-copy {
-    margin-top: 6px;
-  }
-
-  .page-ar-game .ar-mission-grid,
-  .page-ar-game .ar-quick-guide .info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .page-ar-game .ar-market-mission {
-    padding: 20px !important;
-    border-radius: 28px;
-  }
-
-  .page-ar-game .ar-mission-card {
-    padding: 16px;
-    border-radius: 22px;
-  }
-
-  .page-ar-game .mission-ask {
-    grid-template-columns: 30px minmax(0, 1fr);
-  }
-
-  .page-ar-game .mission-ask span {
-    width: 30px;
-    height: 30px;
-  }
-}
-
-@media (max-width: 430px) {
-  .page-ar-game .ar-stage {
-    --ar-safe-top: 140px;
-    --ar-safe-bottom: 124px;
-    min-height: min(680px, calc(100svh - 34px)) !important;
-    margin-bottom: 326px !important;
-  }
-
-  .page-ar-game .ar-model,
-  .page-ar-game .ar-stage.is-ar-on .ar-model {
-    min-height: 270px !important;
-  }
-
-  .page-ar-game .ar-fallback-fish {
-    top: calc(var(--ar-safe-top) + 29%) !important;
-    width: min(84%, 330px) !important;
-  }
-
-  .page-ar-game .ar-fresh-strip {
-    top: 76px !important;
-  }
-}
-
-@media (max-width: 380px) {
-  .page-ar-game .ar-stage {
-    --ar-safe-top: 146px;
-    --ar-safe-bottom: 128px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .phone-fish,
-  .page-ar-game .ar-model,
-  .page-ar-game .ar-fallback-fish {
-    animation: none !important;
-  }
 }
