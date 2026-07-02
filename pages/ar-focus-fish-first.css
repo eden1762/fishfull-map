@@ -1,4 +1,14 @@
 /* FishFull AR focus mode: when shoppers jump straight to the fish, keep the model first and controls safe. */
+.page-ar-game #fishfull-ar-stage {
+  --fishfull-ar-focus-height: 100svh;
+}
+
+@supports (height: 100dvh) {
+  .page-ar-game #fishfull-ar-stage {
+    --fishfull-ar-focus-height: 100dvh;
+  }
+}
+
 @media (max-width: 640px) {
   .page-ar-game #fishfull-ar-stage:target,
   .page-ar-game.ar-fish-first-entry #fishfull-ar-stage,
@@ -11,14 +21,14 @@
   .page-ar-game.ar-fish-first-entry #fishfull-ar-stage .model-stage,
   body.ar-fish-first-entry .page-ar-game #fishfull-ar-stage .model-stage {
     order: -1;
-    min-block-size: min(720px, calc(100svh - 10px)) !important;
+    min-block-size: min(720px, calc(var(--fishfull-ar-focus-height) - 10px)) !important;
     padding-block: max(8px, env(safe-area-inset-top)) calc(22px + env(safe-area-inset-bottom)) !important;
   }
 
   .page-ar-game #fishfull-ar-stage:target .ar-stage,
   .page-ar-game.ar-fish-first-entry #fishfull-ar-stage .ar-stage,
   body.ar-fish-first-entry .page-ar-game #fishfull-ar-stage .ar-stage {
-    min-block-size: min(690px, calc(100svh - 18px)) !important;
+    min-block-size: min(690px, calc(var(--fishfull-ar-focus-height) - 18px)) !important;
   }
 
   .page-ar-game #fishfull-ar-stage:target .ar-side-copy,
@@ -48,5 +58,26 @@
     overflow-y: auto !important;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 540px) {
+  .page-ar-game #fishfull-ar-stage:target .model-stage,
+  .page-ar-game.ar-fish-first-entry #fishfull-ar-stage .model-stage,
+  body.ar-fish-first-entry .page-ar-game #fishfull-ar-stage .model-stage {
+    min-block-size: calc(var(--fishfull-ar-focus-height) - 6px) !important;
+    padding-block: 4px calc(12px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .page-ar-game #fishfull-ar-stage:target .ar-stage,
+  .page-ar-game.ar-fish-first-entry #fishfull-ar-stage .ar-stage,
+  body.ar-fish-first-entry .page-ar-game #fishfull-ar-stage .ar-stage {
+    min-block-size: calc(var(--fishfull-ar-focus-height) - 8px) !important;
+  }
+
+  .page-ar-game #fishfull-ar-stage:target .ar-toolbar,
+  .page-ar-game.ar-fish-first-entry #fishfull-ar-stage .ar-toolbar,
+  body.ar-fish-first-entry .page-ar-game #fishfull-ar-stage .ar-toolbar {
+    max-block-size: calc(26svh + env(safe-area-inset-bottom)) !important;
   }
 }
