@@ -82,8 +82,16 @@
     }
   }
 
+  function syncDirectArEntry() {
+    Array.prototype.slice.call(document.querySelectorAll('.page-ar-game a[href="/ar.html"]')).forEach(function (link) {
+      link.setAttribute('href', '/ar.html#fishfull-ar-stage');
+      link.setAttribute('data-ar-full-fish-entry', 'true');
+    });
+  }
+
   function applyFullFishGuard() {
     var currentKey = viewportKey();
+    syncDirectArEntry();
     var models = Array.prototype.slice.call(document.querySelectorAll('.page-ar-game model-viewer.ar-model'));
     models.forEach(function (model) {
       rememberBaseView(model);
@@ -130,6 +138,7 @@
   window.addEventListener('resize', scheduleGuardWhenViewportChanges, { passive: true });
   window.addEventListener('orientationchange', scheduleGuard, { passive: true });
   window.addEventListener('pageshow', scheduleGuard, { passive: true });
+  document.addEventListener('scm-language-change', scheduleGuard);
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', scheduleGuardWhenViewportChanges, { passive: true });
     window.visualViewport.addEventListener('scroll', scheduleGuardWhenViewportChanges, { passive: true });
@@ -139,7 +148,7 @@
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['src', 'camera-orbit', 'field-of-view', 'camera-target']
+      attributeFilter: ['href', 'src', 'camera-orbit', 'field-of-view', 'camera-target']
     });
   }
 })();
