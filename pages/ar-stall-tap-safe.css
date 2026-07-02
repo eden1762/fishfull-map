@@ -38,7 +38,7 @@
     left: max(8px, env(safe-area-inset-left));
     right: max(8px, env(safe-area-inset-right));
     bottom: max(8px, env(safe-area-inset-bottom));
-    max-inline-size: calc(100vw - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-inline-size: calc(min(100vw, var(--fishfull-ar-visible-width, 100vw)) - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
     padding: 8px;
     border-radius: 18px;
   }
@@ -50,7 +50,7 @@
 
   .page-ar-game .ar-stage.is-ar-on .ar-real-ar-btn {
     right: max(10px, env(safe-area-inset-right));
-    max-inline-size: calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-inline-size: calc(min(100vw, var(--fishfull-ar-visible-width, 100vw)) - 20px - env(safe-area-inset-left) - env(safe-area-inset-right));
   }
 }
 
