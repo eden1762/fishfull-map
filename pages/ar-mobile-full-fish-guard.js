@@ -50,6 +50,11 @@
     return !!(phoneQuery || viewportHeight() < 680 || isStageTight(model) || isNarrowPhoneStage(model));
   }
 
+  function isMobileViewport() {
+    var coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    return !!(coarsePointer || viewportWidth() < 700 || viewportHeight() < 680);
+  }
+
   function fishDistance(model) {
     var height = viewportHeight();
     var ratio = stageRatio(model);
@@ -87,6 +92,26 @@
       link.setAttribute('href', '/ar.html#fishfull-ar-stage');
       link.setAttribute('data-ar-full-fish-entry', 'true');
     });
+  }
+
+  function stageMostlyVisible(stage) {
+    if (!stage || !stage.getBoundingClientRect) return true;
+    var rect = stage.getBoundingClientRect();
+    var visibleTop = Math.max(rect.top, 0);
+    var visibleBottom = Math.min(rect.bottom, viewportHeight());
+    var visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    return visibleHeight >= Math.min(rect.height * 0.62, viewportHeight() * 0.58);
+  }
+
+  function returnToFullFishAfterChoice(event) {
+    var trigger = event.target && event.target.closest ? event.target.closest('.page-ar-game .sustainability-copy .label-card[data-ar-option]') : null;
+    if (!trigger || !isMobileViewport()) return;
+    window.setTimeout(function () {
+      var stage = document.getElementById('fishfull-ar-stage');
+      if (!stage || stageMostlyVisible(stage)) return;
+      document.body.classList.add('ar-fish-first-entry');
+      stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
   }
 
   function applyFullFishGuard() {
@@ -135,6 +160,10 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scheduleGuard);
   else scheduleGuard();
 
+  document.addEventListener('click', returnToFullFishAfterChoice);
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') returnToFullFishAfterChoice(event);
+  });
   window.addEventListener('resize', scheduleGuardWhenViewportChanges, { passive: true });
   window.addEventListener('orientationchange', scheduleGuard, { passive: true });
   window.addEventListener('pageshow', scheduleGuard, { passive: true });
