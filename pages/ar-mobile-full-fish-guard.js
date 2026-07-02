@@ -33,6 +33,12 @@
     return !!(rect && rect.height && rect.height < 590);
   }
 
+  function isNarrowPhoneStage(model) {
+    var rect = stageRect(model);
+    var stageWidth = rect && rect.width ? rect.width : viewportWidth();
+    return stageWidth < 360 || viewportWidth() < 380;
+  }
+
   function stageRatio(model) {
     var rect = stageRect(model);
     if (!rect || !rect.width || !rect.height) return viewportWidth() / Math.max(viewportHeight(), 1);
@@ -41,13 +47,13 @@
 
   function isTightPhoneViewport(model) {
     var phoneQuery = window.matchMedia && window.matchMedia('(max-width: 640px), (max-height: 620px)').matches;
-    return !!(phoneQuery || viewportHeight() < 680 || isStageTight(model));
+    return !!(phoneQuery || viewportHeight() < 680 || isStageTight(model) || isNarrowPhoneStage(model));
   }
 
   function fishDistance(model) {
     var height = viewportHeight();
     var ratio = stageRatio(model);
-    if (height < 520 || ratio > 0.78) return '4.6m';
+    if (height < 520 || ratio > 0.78 || isNarrowPhoneStage(model)) return '4.6m';
     if (height < 560 || isStageTight(model)) return '4.35m';
     if (height < 680) return '4.05m';
     return '3.9m';
@@ -56,7 +62,7 @@
   function fishFov(model) {
     var height = viewportHeight();
     var ratio = stageRatio(model);
-    if (height < 520 || ratio > 0.78) return '36deg';
+    if (height < 520 || ratio > 0.78 || isNarrowPhoneStage(model)) return '36deg';
     if (height < 560) return '34deg';
     return '32deg';
   }
@@ -89,7 +95,7 @@
         setAttrIfChanged(model, 'min-camera-orbit', 'auto auto 3.25m');
         setAttrIfChanged(model, 'max-camera-orbit', 'auto auto 6.4m');
         setAttrIfChanged(model, 'interaction-prompt', 'none');
-        setAttrIfChanged(model, 'data-full-fish-guard', 'tight');
+        setAttrIfChanged(model, 'data-full-fish-guard', isNarrowPhoneStage(model) ? 'narrow' : 'tight');
       } else {
         setAttrIfChanged(model, 'camera-orbit', model.dataset.fishfullBaseOrbit);
         setAttrIfChanged(model, 'field-of-view', model.dataset.fishfullBaseFov);
