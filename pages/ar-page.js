@@ -160,10 +160,11 @@
   }
 
   function nav(text, currentLang) {
+    var logoAlt = currentLang === 'en' ? 'FishFull official logo' : 'FishFull 漁有料官方商標';
     return [
       '<header class="topbar">',
         '<a class="brand" href="/">',
-          '<span class="brand-symbol" aria-hidden="true">◐</span>',
+          '<span class="brand-symbol"><img src="/fishfull.jpg" width="42" height="42" loading="eager" decoding="async" alt="' + esc(logoAlt) + '"></span>',
           '<span><small>' + esc(text.brandSmall) + '</small><strong>' + esc(text.brand) + '</strong></span>',
         '</a>',
         '<nav class="topnav" aria-label="' + esc(currentLang === 'en' ? 'Main navigation' : '主選單') + '">',
@@ -194,9 +195,7 @@
         '</div>',
         '<div class="hero-card ar-phone-card" aria-hidden="true">',
           '<span class="sun-dot"></span>',
-          '<div class="phone-fish">',
-            '<span class="phone-fish-tail"></span><span class="phone-fish-body"></span><span class="phone-fish-eye"></span>',
-          '</div>',
+          '<div class="ar-card-ocean"><span></span><span></span><span></span></div>',
           '<strong>' + esc(text.visualTitle) + '</strong>',
           '<em>' + esc(text.visualBody) + '</em>',
           '<div class="phone-step-row">' + list(text.visualSteps, function (step) { return '<span>' + esc(step) + '</span>'; }) + '</div>',
